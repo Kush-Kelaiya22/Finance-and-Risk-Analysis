@@ -1,0 +1,310 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+
+\setstretch{1.2}
+
+\begin{document}
+
+\begin{center}
+\textbf{Lecture Scribe CSE400 L6}
+\end{center}
+
+Generate a lecture scribe intended to serve as exam-oriented reference material for a closed-notes, reading-based examination.
+
+Use only the provided context (the attached lecture slides PDF). Do not use any external knowledge or introduce any material that does not explicitly appear in the provided context.
+
+The lecture scribe must be a faithful reconstruction of what was taught in class so that a student can reliably revise the lecture using this document alone.
+
+\textbf{Content requirements:}
+\begin{itemize}
+\item Include all definitions, notation, assumptions, and conditions exactly as presented.
+\item State all theorems, propositions, or results covered in the lecture.
+\item Include proofs, proof sketches, derivations, and worked examples only if they appear in the provided context (PDF), and present them step by step, preserving the logical order used in the lecture.
+\item Maintain clear logical dependencies between concepts as they were introduced.
+\end{itemize}
+
+\textbf{Scope constraints:}
+\begin{itemize}
+\item Do not add new examples, alternative proofs, intuition, simplifications, summaries, or explanations that were not discussed in the lecture.
+\item Do not rephrase content creatively or turn it into a tutorial or textbook rewrite.
+\item Do not invent missing steps or fill gaps using external knowledge.
+\end{itemize}
+
+\textbf{Structure and organization:}
+\begin{itemize}
+\item Organize the scribe in a clear, academic structure suitable for revision, using appropriate section headings that reflect the lecture flow.
+\item Ensure the presentation prioritizes correctness, precision, and completeness over verbosity.
+\end{itemize}
+
+The output must strictly reflect the content, structure, and scope of the provided lecture materials, and must be suitable for direct use as exam preparation reference material.
+
+\section*{CSE400 – Fundamentals of Probability in Computing}
+
+\textbf{Lecture 6:} Discrete Random Variables, Expectation and Problem Solving  
+
+Instructor: Dhaval Patel, PhD  
+
+Date: January 22, 2025  
+
+\section{Random Variables: Motivation and Concept}
+
+\subsection*{Definition}
+
+A random variable (RV) $X$ on a sample space $\Omega$ is a function
+\[
+X : \Omega \rightarrow \mathbb{R}
+\]
+that assigns a real number to each sample point $\omega \in \Omega$.
+
+\subsection*{Discrete Random Variables}
+
+Until further notice, attention is restricted to discrete random variables, i.e., random variables that take values in a finite or countably infinite set.
+
+Although $X$ maps into $\mathbb{R}$, the actual set
+\[
+\{X(\omega) : \omega \in \Omega\}
+\]
+is a discrete subset of $\mathbb{R}$.
+
+\subsection*{Visualization}
+
+Sample points in the sample space are mapped to real numbers.  
+The distribution of a discrete RV can be visualized using a bar diagram:
+\begin{itemize}
+\item x-axis: possible values of the RV
+\item y-axis: probabilities
+\end{itemize}
+
+Each probability is computed from the probability of the corresponding event in the sample space.
+
+\section{Guide to Selecting a Probability Distribution}
+
+\subsection*{Discrete Random Variables}
+\begin{itemize}
+\item Countable support
+\item Uses Probability Mass Function (PMF)
+\item Probabilities assigned to single values
+\item Each possible value has strictly positive probability
+\end{itemize}
+
+\subsection*{Continuous Random Variables}
+\begin{itemize}
+\item Uncountable support
+\item Uses Probability Density Function (PDF)
+\item Probabilities assigned to intervals
+\item Each single value has zero probability
+\end{itemize}
+
+\section{Random Variable Example}
+
+\subsection*{Example 1: Tossing 3 Fair Coins}
+
+Let $Y$ denote the number of heads when 3 fair coins are tossed.
+
+Possible values:
+\[
+Y \in \{0,1,2,3\}
+\]
+
+Probabilities:
+\[
+P(Y=0)=P((t,t,t))
+\]
+
+Since $Y$ must take one of these values.
+
+\section{Probability Mass Function (PMF)}
+
+\subsection*{Definition}
+
+A random variable that can take at most a countable number of possible values is called discrete.
+
+Let $X$ be a discrete RV with range
+\[
+R_X = \{x_1,x_2,x_3,\dots\}
+\]
+
+The function
+\[
+p_X(x_k) = \Pr(X = x_k), \quad k=1,2,3,\dots
+\]
+is called the Probability Mass Function (PMF) of $X$.
+
+\subsection*{Property}
+
+Since $X$ must take one of its possible values:
+\[
+\sum_k p_X(x_k)=1
+\]
+
+\subsection*{PMF Example}
+
+Given:
+
+\[
+P(Y=1)=P((h,t,t),(t,h,t),(t,t,h))
+\]
+\[
+P(Y=2)=P((h,h,t),(h,t,h),(t,h,h))
+\]
+\[
+P(Y=3)=P((h,h,h))
+\]
+
+\section{Bayes’ Theorem (Recap)}
+
+\subsection*{Bayes Formula (Proposition 3.1)}
+
+\[
+\Pr(B_i \mid A) = \frac{\Pr(A \mid B_i)\Pr(B_i)}{\sum_j \Pr(A \mid B_j)\Pr(B_j)}
+\]
+
+\subsection*{Terminology}
+\begin{itemize}
+\item $\Pr(B_i)$: a priori probability
+\item $\Pr(B_i \mid A)$: posteriori probability
+\end{itemize}
+
+\section{Bayes’ Theorem Examples}
+
+\subsection*{Example 1: Auditorium with 30 Rows}
+
+Row 1 has 11 seats, Row 2 has 12 seats, \dots, Row 30 has 40 seats.
+
+A row is selected uniformly at random.  
+A seat is selected uniformly from that row.
+
+Tasks:
+\[
+\Pr(\text{Seat 15} \mid \text{Row 20})
+\]
+\[
+\Pr(\text{Row 20} \mid \text{Seat 15})
+\]
+
+\subsection*{Example 2: Communication System (RX)}
+
+Conditional probabilities:
+\[
+\Pr(0\mid0)=0.95,\quad \Pr(1\mid0)=0.05
+\]
+\[
+\Pr(0\mid1)=0.10,\quad \Pr(1\mid1)=0.90
+\]
+
+Tasks:
+\begin{enumerate}
+\item Find $\Pr(1 \text{ transmitted} \mid 0 \text{ received})$
+\item Find $\Pr(0 \text{ transmitted} \mid 1 \text{ received})$
+\item Find the overall probability of error
+\end{enumerate}
+
+\section{Independent Events}
+
+\subsection*{Definition}
+
+Two events $A$ and $B$ are independent if:
+\[
+\Pr(A\mid B)=\Pr(A),\quad \Pr(B\mid A)=\Pr(B)
+\]
+
+Thus:
+\[
+\Pr(A,B)=\Pr(A)\Pr(B)
+\]
+
+\subsection*{Mutual Independence (Three Events)}
+
+Events $A,B,C$ are mutually independent if:
+\[
+\Pr(A,B)=\Pr(A)\Pr(B)
+\]
+\[
+\Pr(A,C)=\Pr(A)\Pr(C)
+\]
+\[
+\Pr(B,C)=\Pr(B)\Pr(C)
+\]
+\[
+\Pr(A,B,C)=\Pr(A)\Pr(B)\Pr(C)
+\]
+
+\section{Types of Discrete Random Variables}
+
+\subsection{Bernoulli Random Variable}
+
+Experiment: Outcome is either Success or Failure.
+
+Define:
+\[
+X=\begin{cases}
+1,& \text{Success}\\
+0,& \text{Failure}
+\end{cases}
+\]
+
+PMF:
+\[
+P(X=1)=p,\quad P(X=0)=1-p,\quad p\in(0,1)
+\]
+
+\subsection{Binomial Random Variable}
+
+Experiment: $n$ independent trials, each trial success with probability $p$.
+
+Define: $X=$ number of successes in $n$ trials
+
+Notation:
+\[
+X\sim B(n,p)
+\]
+
+PMF:
+\[
+p(i)=\binom{n}{i}p^i(1-p)^{n-i},\quad i=0,1,\dots,n
+\]
+
+\subsection{Geometric Random Variable}
+
+Experiment: Independent trials with success probability $p$ until first success.
+
+Define: $X=$ number of trials until first success
+
+PMF:
+\[
+P(X=n)=(1-p)^{n-1}p,\quad n=1,2,\dots
+\]
+
+\subsection*{Geometric Example (Urn Problem)}
+
+Urn with $N$ white and $M$ black balls.  
+Sampling with replacement.
+
+$X=$ number of draws until first black ball.
+
+\section{Poisson Random Variable}
+
+A random variable $X$ taking values $0,1,2,\dots$ is Poisson with parameter $\lambda>0$ if:
+\[
+P(X=i)=e^{-\lambda}\frac{\lambda^i}{i!},\quad i=0,1,2,\dots
+\]
+
+Property:
+\[
+\sum_{i=0}^{\infty}P(X=i)=1
+\]
+
+Note: Poisson RV approximates $B(n,p)$ when:
+\begin{itemize}
+\item $n$ is large
+\item $p$ is small
+\item $np$ is moderate
+\end{itemize}
+
+\section*{End of Lecture}
+
+Questions?
+
+\end{document}
