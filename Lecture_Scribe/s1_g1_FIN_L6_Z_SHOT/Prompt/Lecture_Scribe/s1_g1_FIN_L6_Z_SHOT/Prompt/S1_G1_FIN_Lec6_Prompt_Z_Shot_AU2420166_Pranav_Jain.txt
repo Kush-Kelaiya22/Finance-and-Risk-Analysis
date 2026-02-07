@@ -1,0 +1,13 @@
+Generate a lecture scribe intended to serve as exam-oriented reference material for CSE 400.
+Use only the provided context (lecture slides and relevant textbook material for Lecture 6).
+Include:
+all definitions and notation introduced in the lecture
+stated assumptions and conditions
+theorem or result statements
+proofs or derivations only if they appear in the lecture, written step by step
+worked examples only if they were covered in the lecture, with intermediate steps
+
+Do not introduce new explanations, intuition, examples, or results.
+Do not go beyond the scope of the provided context.
+
+Organize the scribe clearly with appropriate sections so it can be reliably used for exam revision.
