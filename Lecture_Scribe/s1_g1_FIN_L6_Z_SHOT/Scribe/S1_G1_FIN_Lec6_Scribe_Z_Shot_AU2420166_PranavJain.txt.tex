@@ -1,0 +1,201 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture 6 Scribe}
+\cfoot{\thepage}
+
+% ===================== CUSTOM COMMANDS =====================
+\newcommand{\solution}{
+    \vspace{0.5cm}
+    \noindent\textbf{\textcolor{blue}{Solution:}}
+    \vspace{0.2cm}
+}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing}\\
+    \Large Lecture scribe submission
+}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+    \begin{tabular}{ll}
+        \textbf{Name:} & Pranav Jain \\[1.5ex]
+        \textbf{Enrollment No:} & AU2420166 \\[1.5ex]
+        \textbf{Group:} & s1\_g1\_fin \\[1.5ex]
+        \textbf{Email:} & pranav.j@ahduni.edu.in \\[1.5ex]
+        \textbf{Lecture:} & 6 \\[1.5ex]
+        \textbf{Date of Submission:} & February 7\textsuperscript{th}, 2026 (11:59 PM)
+    \end{tabular}
+\end{center}
+
+\bigskip
+
+\section{Scope (as on slides)}
+Items explicitly covered in the lecture slides used as source:
+\begin{enumerate}[left=0pt]
+    \item Types of discrete random variables (Bernoulli, Binomial, Geometric, Poisson) — listed.
+    \item Probability Mass Function (PMF) — definition and properties.
+    \item Example: tossing 3 fair coins (PMF example).
+    \item Example: PMF of the form \(p(i)=c\frac{\lambda^i}{i!},\; i=0,1,2,\dots\) — find normalization constant and probabilities.
+    \item Bayes' Theorem — statement and worked auditorium example (row/seat selection).
+    \item Outline mentions: CDF/PDF, Expectation, moments (variance, etc.) — listed in slides; derivations for these are not present on the provided lecture pages.
+\end{enumerate}
+
+\section{Definitions and Notation (as introduced on slides)}
+\begin{enumerate}[left=0pt]
+    \item \textbf{Random Variable (RV):} variable assigning real values to outcomes of an experiment (illustrated on slides).
+    \item \textbf{Discrete random variable:}
+    \begin{itemize}
+        \item Range (support) \(R_X=\{x_1,x_2,\dots\}\) (finite or countably infinite).
+        \item Notation: \(P_X(x_k)=P(X=x_k)\) for \(k=1,2,\dots\).
+    \end{itemize}
+    \item \textbf{Probability Mass Function (PMF):} For discrete \(X\) with range \(R_X=\{x_k\}\),
+    \[
+        p_X(x_k)=P(X=x_k),\qquad k=1,2,3,\dots
+    \]
+    \item \textbf{PMF normalization property:}
+    \[
+        \sum_k p_X(x_k)=1.
+    \]
+    \item \textbf{Conditional probability (recap on slides):}
+    \[
+        P(A\mid B)=\frac{P(A\cap B)}{P(B)}.
+    \]
+    \item \textbf{Bayes formula (boxed on slides):}
+    \[
+        P(B_i\mid A)=\frac{P(A\mid B_i)\,P(B_i)}{\sum_j P(A\mid B_j)\,P(B_j)}.
+    \]
+\end{enumerate}
+
+\section{Worked Example 1: Tossing 3 fair coins (PMF example)}
+\textbf{Set-up (from slides):} Toss 3 fair coins. Let \(Y\) denote the number of heads. Range: \(\{0,1,2,3\}\).
+
+\solution
+
+\noindent PMF values (as given on slides):
+\begin{align*}
+    P(Y=0) &= P(t,t,t) = \frac{1}{8},\\[4pt]
+    P(Y=1) &= P(\{t,t,h\},\{t,h,t\},\{h,t,t\}) = \frac{3}{8},\\[4pt]
+    P(Y=2) &= P(\{h,h,t\},\{h,t,h\},\{t,h,h\}) = \frac{3}{8},\\[4pt]
+    P(Y=3) &= P(h,h,h) = \frac{1}{8}.
+\end{align*}
+
+\noindent Normalization check (as on slide):
+\[
+    1 \;=\; \sum_{i=0}^3 P(Y=i).
+\]
+
+\section{Worked Example 2: PMF of the form \(p(i)=c\frac{\lambda^i}{i!}\), \(i=0,1,2,\dots\) (Poisson form)}
+\textbf{Given (slide):} \(p(i)=c\frac{\lambda^i}{i!}\) for \(i=0,1,2,\dots\), \(\lambda>0\). Find \(P(X=0)\) and \(P(X>2)\).
+
+\solution
+
+\noindent Use normalization \(\sum_{i=0}^{\infty} p(i)=1\):
+\[
+    \sum_{i=0}^{\infty} c\frac{\lambda^i}{i!}=1.
+\]
+Recognize the exponential series (as used on slides):
+\[
+    \sum_{i=0}^{\infty}\frac{\lambda^i}{i!}=e^{\lambda}.
+\]
+Thus
+\[
+    c\,e^{\lambda}=1 \quad\Rightarrow\quad c=e^{-\lambda}.
+\]
+Hence
+\[
+    P(X=0)=c\frac{\lambda^0}{0!}=e^{-\lambda}.
+\]
+For \(P(X>2)\) (complementary sum used on slides):
+\[
+    \begin{aligned}
+        P(X>2) &= 1-P(X\le 2) \\
+               &= 1-\big(P(X=0)+P(X=1)+P(X=2)\big) \\
+               &= 1 - e^{-\lambda}\Big(1+\lambda+\tfrac{\lambda^2}{2}\Big).
+    \end{aligned}
+\]
+
+\section{Bayes' Theorem (recap) and Worked Example: Auditorium / Door prize (slides)}
+\subsection*{Bayes' Theorem (as boxed on slides)}
+\[
+    P(B_i\mid A)=\frac{P(A\mid B_i)\,P(B_i)}{\sum_j P(A\mid B_j)\,P(B_j)}.
+\]
+
+\subsection*{Auditorium example (as on slides)}
+\textbf{Problem statement (from slide):}
+\begin{itemize}
+    \item Auditorium has 30 rows. Row 1 has 11 seats, Row 2 has 12 seats, Row 3 has 13 seats, \dots, up to Row 30 which has 40 seats (seat counts increase as listed on slide).
+    \item Door prize selection: first randomly select a row (each of the 30 rows equally likely), then randomly select a seat within that row (each seat in chosen row equally likely).
+\end{itemize}
+
+\noindent Events defined on slides:
+\begin{itemize}
+    \item \(S_{15}\): seat 15 is selected.
+    \item \(R_k\): row \(k\) is selected.
+\end{itemize}
+
+\noindent Questions shown on slide:
+\begin{enumerate}
+    \item Compute \(P(S_{15})\).
+    \item Compute \(P(S_{15}\mid R_{20})\).
+    \item Compute \(P(R_{20}\mid S_{15})\).
+\end{enumerate}
+
+\solution
+
+\noindent (1) Total probability for \(S_{15}\) (as on slides):
+\[
+    P(S_{15}) \;=\; \sum_{k=1}^{30} P(S_{15}\mid R_k)\,P(R_k).
+\]
+Here \(P(R_k)=\dfrac{1}{30}\) for each row. \(P(S_{15}\mid R_k)=\dfrac{1}{\text{(number of seats in Row }k\text{)}}\) if seat 15 exists in row \(k\), otherwise 0. The slides evaluate this sum numerically and report:
+\[
+    P(S_{15}) = 0.0342 \quad\text{(value shown on slide).}
+\]
+
+\noindent (2) Conditional probability given row 20 (as on slide):
+\[
+    P(S_{15}\mid R_{20}) = \frac{1}{\text{number of seats in Row 20}}.
+\]
+
+\noindent (3) Posterior via Bayes (as on slide):
+\[
+    P(R_{20}\mid S_{15})
+      \;=\; \frac{P(S_{15}\mid R_{20})\,P(R_{20})}{P(S_{15})}.
+\]
+Substitute \(P(R_{20})=\tfrac{1}{30}\), \(P(S_{15})=0.0342\) and \(P(S_{15}\mid R_{20})=\dfrac{1}{\text{seats in Row 20}}\) as shown on the slide to obtain the numeric result presented on the slide.
+
+\section{Other items shown on slides (no derivation on provided pages)}
+\begin{itemize}[left=0pt]
+    \item Discrete vs continuous variables — PMF vs PDF distinction (figure and bullets appear on slides).
+    \item CDF / PDF are listed in lecture outline.
+    \item Expectation, linearity, moments (variance, skewness, kurtosis) are listed in lecture outline; explicit step-by-step derivations for expectation and moments are not present on the provided Lecture 6 pages.
+\end{itemize}
+
+\section*{Boxed formula / Proposition (as on slides)}
+\[
+    \boxed{ \;P(B_i\mid A)=\dfrac{P(A\mid B_i)\,P(B_i)}{\sum_j P(A\mid B_j)\,P(B_j)}\; }
+\]
+
+\bigskip
+
+\noindent\textbf{Note:} This scribe contains only definitions, notation, stated assumptions, theorem/result statements, and the step-by-step proofs/derivations or worked example steps that appear in the provided Lecture 6 slides. No additional explanations, intuition, or new examples have been introduced.
+
+\end{document}
