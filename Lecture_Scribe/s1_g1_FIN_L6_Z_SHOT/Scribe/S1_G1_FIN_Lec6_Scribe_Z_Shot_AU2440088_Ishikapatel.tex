@@ -1,0 +1,363 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor} 
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Homework Assignment-2}
+\cfoot{\thepage}
+
+% ===================== CUSTOM COMMANDS =====================
+\newcommand{\solution}{
+    \vspace{0.5cm}
+    \noindent\textbf{\textcolor{blue}{Solution:}}
+    \vspace{0.2cm}
+}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing}\\
+    \Large Lecture scribe submission
+}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+    \begin{tabular}{ll}
+        \textbf{Name:} & Ishika Patel \\[1.5ex]
+        \textbf{Enrollment No:} & AU2440088 \\[1.5ex]
+        \textbf{Group:} & s1\_g1\_fin \\[1.5ex]
+        \textbf{Email:} & ishika.p3@ahduni.edu.in \\[1.5ex]
+        \textbf{Lecture:} & 6 \\[1.5ex]
+        \textbf{Date of Submission:} & February 7\textsuperscript{th}, 2026 (11:59 PM)
+    \end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+\section{Random Variables}
+
+\subsection{Definition}
+
+A random variable $X$ on a sample space $\Omega$ is a function
+\[
+X : \Omega \rightarrow \mathbb{R}
+\]
+that assigns to each sample point $\omega \in \Omega$ a real number.
+
+Until further notice, attention is restricted to discrete random variables, i.e., random variables that take values in a finite or countably infinite set.
+
+Although $X$ maps $\Omega$ to $\mathbb{R}$, the actual set of values
+\[
+\{ X(\omega) : \omega \in \Omega \}
+\]
+is a discrete subset of $\mathbb{R}$.
+
+\subsection{Distribution of a Random Variable}
+
+The distribution of a random variable can be visualized as a bar diagram:
+\begin{itemize}
+    \item The x-axis represents the values the random variable can take.
+    \item The height of the bar at value $a$ is $\Pr[X = a]$.
+\end{itemize}
+
+Each probability is computed from the probability of the corresponding event in the sample space.
+
+\section{Guide to Selecting a Probability Distribution}
+
+\subsection{Discrete Random Variable}
+\begin{itemize}
+    \item Countable support
+    \item Probability Mass Function
+    \item Probabilities assigned to single values
+    \item Each possible value has strictly positive probability
+\end{itemize}
+
+\subsection{Continuous Random Variable}
+\begin{itemize}
+    \item Uncountable support
+    \item Probability Density Function
+    \item Probabilities assigned to intervals of values
+    \item Each possible value has zero probability
+\end{itemize}
+
+\section{Examples of Random Variables}
+
+\subsection{Example 1: Tossing 3 Fair Coins}
+
+Let $Y$ denote the number of heads that appear when 3 fair coins are tossed.
+
+Possible values:
+\[
+Y \in \{0,1,2,3\}
+\]
+
+Probabilities:
+\[
+\Pr(Y=0) = \Pr(t,t,t)
+\]
+\[
+\Pr(Y=1) = \Pr\{(t,t,h),(t,h,t),(h,t,t)\}
+\]
+\[
+\Pr(Y=2) = \Pr\{(h,h,t),(h,t,h),(t,h,h)\}
+\]
+\[
+\Pr(Y=3) = \Pr(h,h,h)
+\]
+
+Since $Y$ must take one of the values 0 through 3:
+\[
+\sum_{i} \Pr(Y=i) = 1
+\]
+
+\section{Probability Mass Function (PMF)}
+
+\subsection{Definition}
+
+A random variable that can take on at most a countable number of possible values is said to be discrete.
+
+Let $X$ be a discrete random variable with range
+\[
+R_X = \{x_1, x_2, x_3, \ldots\}
+\]
+(finite or countably infinite).
+
+The function
+\[
+p_X(x_k) = \Pr(X = x_k), \quad k = 1,2,3,\ldots
+\]
+is called the Probability Mass Function (PMF) of $X$.
+
+Since $X$ must take one of these values:
+\[
+\sum_{k=1}^{\infty} p_X(x_k) = 1
+\]
+
+\subsection{PMF Example}
+
+Given:
+\[
+p(i) = c e^{-i}, \quad i = 0,1,2,\ldots
+\]
+
+Since
+\[
+\sum_{i=0}^{\infty} p(i) = 1
+\]
+we have:
+\[
+c \sum_{i=0}^{\infty} e^{-i} = 1
+\]
+
+Using
+\[
+\sum_{i=0}^{\infty} e^{-i} = \frac{1}{1-e^{-1}}
+\]
+implies:
+\[
+c = e^{-1}
+\]
+
+Results:
+\[
+\Pr(X=0) = e^{-1}
+\]
+\[
+\Pr(X>2) = 1 - \Pr(X \le 2) = 1 - \Pr(X=0) - \Pr(X=1) - \Pr(X=2)
+\]
+
+\section{Bayes' Theorem (Recap)}
+
+\subsection{Bayes Formula (Proposition 3.1)}
+
+\[
+\Pr(A \mid B_i) =
+\frac{\Pr(B_i \mid A)\Pr(A)}
+{\sum_{i=1}^{n} \Pr(A \mid B_i)\Pr(B_i)}
+\]
+
+\[
+\Pr(B_i): \text{ A priori probability}
+\]
+\[
+\Pr(B_i \mid A): \text{ Posteriori probability}
+\]
+
+\subsection{Example 1: Auditorium with 30 Rows}
+
+\begin{itemize}
+    \item 30 rows
+    \item Row 1 has 11 seats, Row 30 has 40 seats
+    \item A row is selected uniformly
+    \item A seat within the selected row is selected uniformly
+\end{itemize}
+
+Tasks:
+\[
+\Pr(\text{Seat 15} \mid \text{Row 20})
+\]
+\[
+\Pr(\text{Row 20} \mid \text{Seat 15})
+\]
+
+\subsection{Example 2: Communication System (Receiver)}
+
+Conditional probabilities:
+\[
+\Pr(0_r \mid 0_t) = 0.95, \quad \Pr(1_r \mid 0_t) = 0.05
+\]
+\[
+\Pr(0_r \mid 1_t) = 0.10, \quad \Pr(1_r \mid 1_t) = 0.90
+\]
+
+Tasks:
+\begin{itemize}
+    \item Find $\Pr(0 \text{ received})$ and $\Pr(1 \text{ received})$
+    \item Find posterior probabilities of transmitted bit given received bit
+    \item Find overall probability of error
+\end{itemize}
+
+\section{Independent Events}
+
+\subsection{Definition}
+
+Two events $A$ and $B$ are independent if:
+\[
+\Pr(A \mid B) = \Pr(A), \quad \Pr(B \mid A) = \Pr(B)
+\]
+
+Hence:
+\[
+\Pr(A,B) = \Pr(A)\Pr(B)
+\]
+
+\subsection{Mutual Independence (Three Events)}
+
+Events $A,B,C$ are mutually independent if:
+\[
+\Pr(A,B) = \Pr(A)\Pr(B)
+\]
+\[
+\Pr(A,C) = \Pr(A)\Pr(C)
+\]
+\[
+\Pr(B,C) = \Pr(B)\Pr(C)
+\]
+\[
+\Pr(A,B,C) = \Pr(A)\Pr(B)\Pr(C)
+\]
+
+\section{Types of Discrete Random Variables}
+
+\subsection{Bernoulli Random Variable}
+
+Experiment outcome: Success or Failure
+
+\[
+X =
+\begin{cases}
+1 & \text{Success} \\
+0 & \text{Failure}
+\end{cases}
+\]
+
+PMF:
+\[
+p_X(0) = 1-p, \quad p_X(1) = p, \quad p \in (0,1)
+\]
+
+\subsection{Binomial Random Variable}
+
+Experiment:
+\begin{itemize}
+    \item $n$ independent trials
+    \item Success probability $p$
+\end{itemize}
+
+Random variable:
+\[
+X = \text{number of successes in } n \text{ trials}
+\]
+
+Notation:
+\[
+X \sim B(n,p)
+\]
+
+PMF:
+\[
+p(i) = \binom{n}{i} p^i (1-p)^{n-i}, \quad i = 0,1,\ldots,n
+\]
+
+\subsection{Geometric Random Variable}
+
+Experiment:
+\begin{itemize}
+    \item Independent trials
+    \item Success probability $p$
+    \item Trials continue until first success
+\end{itemize}
+
+Random variable:
+\[
+X = \text{number of trials until first success}
+\]
+
+PMF:
+\[
+\Pr(X=n) = (1-p)^{n-1}p, \quad n = 1,2,\ldots
+\]
+
+\subsection{Example: Urn Problem}
+
+\[
+N \text{ white balls}, \quad M \text{ black balls}
+\]
+
+Replacement after each draw
+
+\[
+p = \frac{M}{M+N}
+\]
+
+\[
+\Pr(X=n) = \left(\frac{N}{M+N}\right)^{n-1} \frac{M}{M+N}
+\]
+
+\subsection{Poisson Random Variable}
+
+Definition: A random variable $X$ taking values $0,1,2,\ldots$ is Poisson with parameter $\lambda > 0$ if:
+\[
+\Pr(X=i) = \frac{e^{-\lambda}\lambda^i}{i!}, \quad i = 0,1,2,\ldots
+\]
+
+Normalization:
+\[
+\sum_{i=0}^{\infty} \Pr(X=i) = 1
+\]
+
+Note: Poisson RV approximates $B(n,p)$ when $n$ is large, $p$ is small, and $np$ is moderate.
+
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+    \small \textit{End of Submission}
+\end{center}
+
+\end{document}
