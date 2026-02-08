@@ -1,0 +1,191 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture Scribe}
+\cfoot{\thepage}
+
+\newcommand{\solution}{
+	\vspace{0.5cm}
+	\noindent\textbf{\textcolor{blue}{Solution:}}
+	\vspace{0.2cm}
+}
+
+\title{
+	\normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+	\vspace{0.2cm}
+	\textbf{CSE 400: Fundamentals of Probability in Computing}\\
+	\Large Lecture Scribe Submission
+}
+
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+	\begin{tabular}{ll}
+		\textbf{Name:} & {Kush Kelaiya \hspace{2.5in}} \\ [1.5ex]
+		\textbf{Enrollment No:} & {AU2440018 \hspace{2.5in}} \\ [1.5ex]
+		\textbf{Email:} & {kush.k2@ahduni.edu.in \hspace{2.1in}} \\ [1.5ex]
+		\textbf{Group: } & s1\_g1\_fin \\ [1.5ex]
+		\textbf{Lecture:} & 6 \\ [1.5ex]
+		\textbf{Date of Submission:} & {February 7\textsuperscript{th}, 2026 (11:59PM) \hspace{1.2in}}
+	\end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+\section{Random Variables}
+\subsection{Motivation and Concept}
+A random variable (RV) is a function that maps outcomes of a random experiment (sample space) to real numbers.
+
+\begin{itemize}
+	\item The \textbf{distribution of a random variable} can be visualized as a bar diagram.
+	\item The \textbf{x-axis} represents the values that the random variable can take.
+	\item The \textbf{height of the bar at a value $a_i$} is the probability of $Pr\left[ X=a_i \right]$.
+	\item Each probability is computed from the probability of the corresponding event in the sample space.
+\end{itemize}
+
+\section{Types of Random Variable}
+\subsection{Discrete Random Variable}
+A random variable is \textbf{discrete} if:
+\begin{itemize}
+	\item It has \textbf{countable support}.
+	\item It is described using a \textbf{Probability Mass Function (PMF)}.
+	\item Probabilities are assigned to \textbf{single values}.
+	\item Each possible value has \textbf{strictly positive probability}.
+\end{itemize}
+\subsection{Continuous Random Variable}
+A random variable is continuous if:
+\begin{itemize}
+	\item It has \textbf{uncountable support}.
+	\item It is described using a \textbf{Probability Density Function (PDF)}.
+	\item Probabilities are assigned to \textbf{intervals of values}.
+	\item Each individual value has \textbf{zero probability}.
+\end{itemize}
+
+\section{Examples of Random Variables}
+\subsection*{Example 1: Tossing Three Fair Coins}
+\textbf{Experiment:} Toss 3 fair coins.\\
+Let $Y$ denote the \textbf{number of heads} that appear.
+\begin{itemize}
+	\item Possible values of $Y$ : $\left\{ 0, 1, 2, 3 \right\}$
+\end{itemize}
+Probability Calculations
+\begin{itemize}
+	\item $Pr(Y=0) = Pr(t, t, t) = \frac{1}{8}$
+	\item $Pr(Y=1) = Pr(t, t, h) + Pr(t, h, t) + Pr(h, t, t) = \frac{3}{8}$
+	\item $Pr(Y=2) = Pr(t, h, h) + Pr(h, t, h) + Pr(h, h, t) = \frac{3}{8}$
+	\item $Pr(Y=3) = Pr(h, h, h) = \frac{1}{8}$
+\end{itemize}
+Thus,
+$$Pr(Y=0) = \frac{1}{8},\,Pr(Y=1) = \frac{3}{8},\,Pr(Y=2) = \frac{3}{8},\,Pr(Y=3) = \frac{1}{8}$$
+Since $Y$ must take one of these values:
+$$1 = Pr\left( \bigcup_{i=0}^3(Y=i) \right) = \sum_{i=0}^{3}Pr(Y=i)$$
+
+\section{Probability Mass Function (PMF)}
+\subsection{Definition}
+A random variable that can take on \textbf{at most a countable number of possible values} is said to be \textbf{discrete}.\\\\
+Let $X$ be a discrete random variable with range (possible values)
+$$R_x = \left\{ x_1, x_2, x_3, \dots \right\}$$
+
+(where the set is \textbf{finite or countably infinity}).\\
+The function
+$$P_X(X_K) - Pr(X=\mathsf{X}_K), k = 1, 2, 3, \dots$$
+is called the \textbf{Probability Mass Function (PMF)} of $X$.
+\subsection{PMF Property}
+Since $X$ must take \textbf{one of the values} $X_K$:
+$$\sum_{k=1}^{\infty}P_X(X_K)=1$$
+
+\section{PMF - Worked Example}
+\subsection*{Example}
+The probability mass function of a random variable $X$ is given by:
+$$p(i) = c\dfrac{\lambda^i}{i!}, i = 0, 1, 2, \dots$$
+where $\lambda > 0$.\\
+\textbf{Step 1: Find the constant C}\\
+Using the PMF condition:
+\begin{align*}
+	\sum_{i=0}^{\infty}p(i) &= 1\\\\
+	c\sum_{i=0}^{\infty}\dfrac{\lambda^i}{i!} &= 1\\
+\end{align*}
+Since,
+\begin{align*}
+	\epsilon^\lambda = \sum_{i=0}^{\infty}\dfrac{\lambda^i}{i!}
+\end{align*}
+we get:
+$$c\epsilon^\lambda = 1 \to c = \epsilon^{-\lambda}$$
+\textbf{Step 2:} Find Pr[X=0]
+	$$Pr[X=0] = c\dfrac{\lambda^0}{0!} = \epsilon^{-\lambda}$$
+\textbf{Step 3:} Find Pr[X>2]\\
+\begin{align*}
+Pr[X>2] = 1 - Pr[X\leq2]\\
+= 1-1 {Pr[X=0] + Pr[X=1] + Pr[X=2]}\\
+= 1 - \left( \epsilon^{-\lambda} + \lambda\epsilon^{-\lambda} + \dfrac{\lambda^2}{2}\epsilon^{-\lambda} \right)
+\end{align*}
+
+\section{Bayes' Theorem}
+\subsection{Recap}
+Using conditional probability:
+$$Pr(A\cap B_i) = Pr(B\,|\,A)Pr(A)$$
+We obtain:
+$$
+Pr(B_i\,|\,A) = \dfrac{Pr(A\,|\,B_i)Pr(B_i)}{\sum_{n}^{j=1}pr(A\,|\,B_j)Pr(B_j)}
+$$
+This is known as \textbf{Bayes' Formula (Proposition 3.1)}.
+\subsection{Terminology}
+\begin{itemize}
+	\item $Pr(B_i)$: \textbf{A priori probability}\\
+	(formed from presupposed or self-evident models)
+	\item $Pr(B_i\,|\,A)$: \textbf{Posterior probability}
+	(computed after observing event $A$)
+\end{itemize}
+
+\section{Bayes' Theorem - Example 1}
+\subsection*{Auditorium with 30 Rows}
+\begin{itemize}
+	\item The auditorium has 30 rows.
+	\item Row 1 has 11 seats, Row 2 has 12 seats, Row 3 has 13 seats, \dots, Row 30 has 40 seats.
+	\item A door prize is given by
+	\begin{enumerate}
+		\item Randomly selecting a row (each row equally likely.)
+		\item Randomly select a seat within that row (each seat equally likely).
+	\end{enumerate}
+\end{itemize}
+\textbf{Tasks}
+\begin{enumerate}
+	\item Compute the probability that Seat 15 was selected given that Row 20 was selected.
+	\item Compute the probability that Row 20 was selected given that Seat 15 was selected. 
+\end{enumerate}
+(Computation is carried out using Bayes' formula as shown in the lecture.)
+\section{Bayes' Theorem - Example 2}
+\subsection*{Communication System (Receiver - RX)}
+\begin{itemize}
+	\item A communication system sends \textbf{binary data}: 0 or 1.
+	\item The receiver (RX) may make errors:
+	\item \begin{itemize}
+		\item A 0 may be detected as 1.
+		\item A 1 may be detected as 0.
+	\end{itemize}
+	\item The system is described using a given \textbf{set of conditional probabilities.}
+\end{itemize}
+(The posterior probabilities are computed using Bayes' theorem based on the provided conditional probabilities.)
+
+\vfill
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+\small \textit{End of Submission}
+\end{center}
+
+\end{document}
