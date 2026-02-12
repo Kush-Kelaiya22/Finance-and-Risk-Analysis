@@ -1,0 +1,229 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture 11}
+\cfoot{\thepage}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing}\\
+    \Large Lecture Scribe Submission
+}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+    \begin{tabular}{ll}
+        \textbf{Name:} & Ishika Patel \\[1.5ex]
+        \textbf{Enrollment No:} & AU2440088 \\[1.5ex]
+        \textbf{Group:} & s1\_g1\_fin \\[1.5ex]
+        \textbf{Lecture:} & 11 \\[1.5ex]
+        \textbf{Instructor:} & Dhaval Patel, PhD \\[1.5ex]
+        \textbf{Date:} & February 10, 2026
+    \end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+\section{Transformation of Random Variables}
+
+\subsection{Objective}
+
+Learning of transformation techniques for random variables.
+
+\subsection{Single Random Variable Transformation}
+
+Let $X$ be a random variable whose PDF $f_X(x)$ is known.
+
+Let
+\[
+Y = g(X)
+\]
+
+We aim to find the CDF and PDF of $Y$.
+
+\subsubsection*{Step–V: CDF of $Y$}
+
+Since
+\[
+F_Y(y) = \Pr(Y \le y)
+\]
+
+\[
+F_Y(y) = \Pr(g(X) \le y)
+\]
+
+This probability is expressed in terms of $X$ and evaluated using the known PDF of $X$.
+
+\subsubsection*{PDF of $Y$}
+
+For a monotonic transformation,
+\[
+f_Y(y) = f_X(x) \left| \frac{dx}{dy} \right|
+\]
+
+evaluated at the value of $x$ such that
+\[
+y = g(x)
+\]
+
+If the mapping is not one-to-one, contributions from all valid roots are added.
+
+If $y$ is outside the transformed range, then
+\[
+f_Y(y) = 0
+\]
+
+\section{Function of Two Random Variables}
+
+Joint transformations and derived distributions.
+
+Let
+\[
+Z = X + Y
+\]
+
+Then the CDF of $Z$ is
+\[
+F_Z(z) = \Pr(Z \le z)
+\]
+
+\[
+= \Pr(X + Y \le z)
+\]
+
+This probability is evaluated over the joint distribution of $X$ and $Y$.
+
+\section{Illustrative Examples}
+
+\subsection{Example 1}
+
+Let
+\[
+X \sim \text{Uniform}(-1,1)
+\]
+
+\[
+f_X(x) =
+\begin{cases}
+\frac{1}{2}, & -1 < x < 1 \\
+0, & \text{otherwise}
+\end{cases}
+\]
+
+Let
+\[
+Y = \sin\left(\frac{\pi}{2} X\right)
+\]
+
+Find the PDF of $Y$.
+
+\subsubsection*{Step 1: Express the transformation}
+
+\[
+Y = \sin\left(\frac{\pi}{2} X\right)
+\]
+
+\subsubsection*{Step 2: Find the inverse transformation}
+
+\[
+X = \frac{2}{\pi} \sin^{-1}(Y)
+\]
+
+\subsubsection*{Step 3: Compute derivative}
+
+\[
+\frac{dX}{dY} = \frac{2}{\pi} \cdot \frac{1}{\sqrt{1 - Y^2}}
+\]
+
+\subsubsection*{Step 4: Apply transformation formula}
+
+\[
+f_Y(y) = f_X(x) \left| \frac{dX}{dY} \right|
+\]
+
+Substituting,
+
+\[
+f_Y(y) =
+\frac{1}{2}
+\cdot
+\frac{2}{\pi}
+\cdot
+\frac{1}{\sqrt{1-y^2}}
+\]
+
+\[
+f_Y(y) =
+\frac{1}{\pi \sqrt{1-y^2}},
+\quad -1 < y < 1
+\]
+
+\[
+f_Y(y) = 0 \quad \text{otherwise}
+\]
+
+\subsection{Example 2}
+
+Let
+\[
+Z = X + Y
+\]
+
+Then
+\[
+F_Z(z) = \Pr(Z \le z)
+\]
+
+\[
+= \Pr(X + Y \le z)
+\]
+
+This is evaluated using the joint distribution of $X$ and $Y$.
+
+\section{Summary of Lecture}
+
+Transformation of a random variable is performed using the CDF method or PDF transformation formula.
+
+For monotonic $g(x)$:
+\[
+f_Y(y) = f_X(x) \left| \frac{dx}{dy} \right|
+\]
+
+For two random variables:
+\[
+F_Z(z) = \Pr(X + Y \le z)
+\]
+
+Example derived:
+\[
+f_Y(y) =
+\frac{1}{\pi \sqrt{1-y^2}},
+\quad -1 < y < 1
+\]
+
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+    \small \textit{End of Lecture 11}
+\end{center}
+
+\end{document}
