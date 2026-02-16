@@ -1,9 +1,0 @@
-PROMPT:
-
-Generate a lecture scribe designed to function as exam-oriented reference material for a closed-notes examination. Use strictly and only the provided lecture slides and relevant textbook excerpts as context.
-
-Include all definitions, notation, assumptions, theorem statements, proofs or derivations, and worked examples exactly as they appear in the provided materials. Present proofs, derivations, and example solutions only if they are explicitly included in the context.
-
-Do not introduce new examples, explanations, intuition, commentary, or external material. Do not simplify into a tutorial or add content beyond what was taught.
-
-Organize the scribe in a clear, structured manner with appropriate headings that follow the lecture’s logical order. Ensure correctness, completeness, and strict faithfulness to the provided context so that the document can be reliably used for exam revision.
