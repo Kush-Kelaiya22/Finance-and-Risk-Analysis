@@ -1,0 +1,21 @@
+Lecture 11 Scribe
+
+Prompt:
+Generate a lecture scribe intended to serve as accurate and exam-oriented reference material for revision. Use only the provided lecture slides (attached pdf) as the authoritative source.
+The scribe must faithfully reconstruct what was taught in the lecture so that a student studying only this document can reliably recall definitions, notation, assumptions, results, derivations, and example solutions.
+Include only material present in the provided context, and do not introduce new content.
+The scribe must include, wherever present in the context:
+• Definitions and notation
+• Assumptions and required conditions
+• Statements of results or theorems
+• Proofs or derivations presented in lecture, written step by step
+• Worked examples with intermediate steps exactly as shown
+• All solutions provided in the lecture slides or PDF
+• Solution steps exactly in the same logical order and form as presented in the context
+• Clear logical flow between concepts and sections
+If the lecture contains a fully solved example, including the derivation for the transformation involving the random variables  Z=X+Y, the complete solution must be included in the lecture scribe with all steps exactly as presented in the lecture material, without modifying, skipping, or adding steps.
+Follow the lecture’s structure and scope. Maintain a formal academic tone suitable for exam preparation.
+Organize the scribe clearly using logical sections and headings so that it can be directly used for revision.
+Do not add intuition, extra explanations, simplifications, new examples, or external material not present in the context.
+Do not invent missing steps or introduce content beyond the lecture or textbook material.
+The output must strictly prioritize correctness, faithfulness to lecture content, and structured presentation for exam preparation.
