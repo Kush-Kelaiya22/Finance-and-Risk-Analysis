@@ -1,0 +1,158 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+% Page layout
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+% Header configuration
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE400: Fundamentals of Probability in Computing}
+\rhead{Lecture 6 Scribe}
+\cfoot{\thepage}
+
+\title{\textbf{Lecture 6: Discrete RVs, Expectation and Problem Solving}}
+\author{
+    \textbf{Name:} Nissarg Danidhariya \\
+    \textbf{Enrollment no.:} AU2440261 \\
+    \textbf{Course:} CSE400
+}
+\date{January 22, 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Lecture Information}
+\begin{itemize}
+    \item \textbf{Instructor:} Dhaval Patel, PhD (Associate Professor, SEAS-Ahmedabad University)
+    \item \textbf{Topic:} Discrete Random Variables (RVs), Expectation, and Problem Solving
+\end{itemize}
+
+\section{Outline of Topics}
+\begin{itemize}
+    \item Previous Lecture Recap: Random Variables (RVs), Independent Events
+    \item Definition and Example
+    \item Types of Discrete Random Variables:
+    \begin{itemize}
+        \item Bernoulli RV
+        \item Binomial RV
+        \item Geometric RV
+        \item Poisson RV
+    \end{itemize}
+    \item Expectation of RVs: $\mu = E[x] = \sum x_i p_x(x_i)$
+    \item Cumulative Density Function (CDF) and Probability Density Function (PDF)
+\end{itemize}
+
+\section{Random Variables: Motivation and Concept}
+
+\subsection{Definition}
+A \textbf{random variable} $X$ on a sample space $\Omega$ is a function $X: \Omega \to \mathbb{R}$ that assigns to each sample point $\omega \in \Omega$ a real number $X(\omega)$.
+
+\begin{itemize}
+    \item \textbf{Discrete Random Variable:} A random variable is discrete if it takes values in a range that is finite or countably infinite.
+    \item Even though $X$ is defined to map $\Omega$ to $\mathbb{R}$, the actual set of values $\{X(\omega) : \omega \in \Omega\}$ that $X$ takes is a discrete subset of $\mathbb{R}$.
+\end{itemize}
+
+\subsection{Visualization}
+The distribution of a random variable can be visualized as a bar diagram:
+\begin{itemize}
+    \item The x-axis represents the values that the random variable can take on.
+    \item The height of the bar at a value $a$ is the probability $\text{Pr}[X=a]$.
+    \item Each of these probabilities can be computed by looking at the probability of the corresponding event in the sample space.
+\end{itemize}
+
+\section{Guide to Selecting a Probability Distribution}
+
+The following table summarizes the types of random variables and their characteristics as presented.
+
+\subsection{Discrete Variables (Countable Support)}
+\textbf{Characteristics:} Probability Mass Function (PMF). Probabilities assigned to single values. Each possible value has strictly positive probability.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{0.25\linewidth}|p{0.7\linewidth}|}
+\hline
+\textbf{Distribution} & \textbf{Characteristics \& Conditions} \\
+\hline
+\textbf{Binomial} & $X = \#$ of S's in $n$ trials. \newline
+1. Identical trials. \newline
+2. 2 outcomes: S (Success), F (Failure). \newline
+3. $P(S)$ and $P(F)$ constant across trials. \newline
+4. Trials independent. \\
+\hline
+\textbf{Poisson} & $X = \#$ times a rare event (S) occurs in a unit. \newline
+1. $P(S)$ remains constant across units. \newline
+2. Unit $X$ values are independent. \\
+\hline
+\textbf{Hypergeometric} & $X = \#$ of S's in $n$ trials. \newline
+1. $n$ elements drawn without replacement from $N$ elements. \newline
+2. 2 outcomes: S, F. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Continuous Variables (Uncountable Support)}
+\textbf{Characteristics:} Probability Density Function (PDF). Probabilities assigned to intervals of values. Each possible value has zero probability.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{0.25\linewidth}|p{0.7\linewidth}|}
+\hline
+\textbf{Distribution} & \textbf{Description} \\
+\hline
+\textbf{Normal} & Bell-shaped curve. \\
+\hline
+\textbf{Uniform} & Randomness (evenness) distribution. \\
+\hline
+\textbf{Exponential} & Waiting-time distribution. \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Examples}
+
+\subsection{Example 1: Tossing 3 Fair Coins}
+\textbf{Experiment:} Consists of tossing 3 fair coins. \\
+\textbf{Random Variable:} Let $Y$ denote the number of heads that appear. $Y$ is a random variable taking on one of the values 0, 1, 2, and 3.
+
+\textbf{Probabilities and Derivation:}
+The probabilities for each value of $Y$ are calculated by identifying the corresponding sample points in the sample space.
+
+\begin{align*}
+    P(Y=0) &= P\{(t,t,t)\} = \frac{1}{8} \\
+    P(Y=1) &= P\{(t,t,h), (t,h,t), (h,t,t)\} = \frac{3}{8} \\
+    P(Y=2) &= P\{(t,h,h), (h,t,h), (h,h,t)\} = \frac{3}{8} \\
+    P(Y=3) &= P\{(h,h,h)\} = \frac{1}{8}
+\end{align*}
+
+\textbf{Verification:}
+Since $Y$ must take on one of the values 0 through 3, the sum of probabilities must equal 1:
+\[
+1 = P\left(\bigcup_{i=0}^{3} \{Y=i\}\right) = \sum_{i=0}^{3} P\{Y=i\}
+\]
+\[
+\frac{1}{8} + \frac{3}{8} + \frac{3}{8} + \frac{1}{8} = \frac{8}{8} = 1
+\]
+
+\section{Probability Functions Definitions}
+
+\subsection{Probability Mass Function (PMF)}
+\begin{itemize}
+    \item Applies to: \textbf{Discrete} random variables (countable number of possible values).
+    \item Function: Gives the probability of each outcome.
+\end{itemize}
+
+\subsection{Probability Density Function (PDF)}
+\begin{itemize}
+    \item Applies to: Continuous random variables.
+    \item Function: Gives the \textbf{relative likelihood} of outcomes in a range.
+\end{itemize}
+
+\end{document}
