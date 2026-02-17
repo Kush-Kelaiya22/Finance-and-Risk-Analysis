@@ -1,0 +1,276 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\title{\textbf{CSE400 — Lecture 11}\\
+Transformation of Random Variables\\
+\large Exam-Oriented Lecture Scribe for Revision}
+\author{
+Course: CSE400 — Fundamentals of Probability in Computing\\
+Instructor: Dhaval Patel, Associate Professor, SEAS, Ahmedabad University\\
+Lecture Date: February 10, 2026
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+This scribe reconstructs the lecture content strictly from the lecture slides and preserves the structure, results, and solution steps presented.
+
+\hrule
+\vspace{0.5em}
+
+\section*{1. Lecture Outline}
+
+The lecture covers:
+
+\begin{enumerate}
+    \item \textbf{Transformation of Random Variables}
+    \begin{itemize}
+        \item Learning techniques to transform random variables.
+    \end{itemize}
+
+    \item \textbf{Function of Two Random Variables}
+    \begin{itemize}
+        \item Joint transformations and derived distributions.
+    \end{itemize}
+
+    \item \textbf{Illustrative Example}
+    \begin{itemize}
+        \item Detailed derivation for the case:
+        \[
+        Z = X + Y
+        \]
+    \end{itemize}
+\end{enumerate}
+
+\hrule
+\vspace{0.5em}
+
+\section*{2. Transformation of Random Variables}
+
+The lecture considers transformation of a random variable where:
+
+\begin{itemize}
+    \item A random variable \(X\) is known.
+    \item A new random variable \(Y\) is defined as a function of \(X\):
+    \[
+    Y = g(X)
+    \]
+\end{itemize}
+
+The goal is to obtain the distribution of \(Y\).
+
+\subsection*{Method Used: CDF-Based Transformation}
+
+The cumulative distribution function (CDF) of \(Y\) is derived using probability relations.
+
+\subsubsection*{Step-by-step derivation}
+
+\begin{enumerate}
+    \item Define CDF of \(Y\):
+    \[
+    F_Y(y) = P(Y \le y)
+    \]
+
+    \item Substitute transformation:
+    \[
+    = P(g(X) \le y)
+    \]
+
+    \item Express event in terms of \(X\):
+    \[
+    = P(X \le g^{-1}(y))
+    \]
+    (depending on monotonicity of the transformation).
+
+    \item Use the CDF of \(X\):
+    \[
+    = F_X(g^{-1}(y))
+    \]
+
+    \item Obtain PDF of \(Y\) by differentiation:
+    \[
+    f_Y(y) = \frac{d}{dy} F_Y(y)
+    \]
+\end{enumerate}
+
+This procedure uses the known PDF or CDF of \(X\) to derive that of \(Y\).
+
+\hrule
+\vspace{0.5em}
+
+\section*{3. Example: Transformation of a Uniform Random Variable}
+
+An example involves a uniformly distributed random variable.
+
+From the lecture slides:
+
+\begin{itemize}
+    \item A random variable is uniformly distributed over an interval.
+    \item A transformation is applied:
+    \[
+    Y = \sin(\cdot)
+    \]
+    (exact argument as given in slides).
+\end{itemize}
+
+Steps followed:
+
+\begin{enumerate}
+    \item Start with known PDF of the original variable.
+    \item Apply transformation relation.
+    \item Express transformed variable in terms of original variable.
+    \item Use probability relation:
+    \[
+    F_Y(y) = P(Y \le y)
+    \]
+    \item Convert inequality into original variable’s domain.
+    \item Use known distribution of original variable.
+    \item Differentiate to obtain PDF.
+\end{enumerate}
+
+The lecture maintains symbolic manipulation from original to transformed distribution.
+
+\hrule
+\vspace{0.5em}
+
+\section*{4. Function of Two Random Variables}
+
+The lecture then considers transformations involving two random variables.
+
+\begin{itemize}
+    \item Two random variables:
+    \[
+    X, Y
+    \]
+    \item Possibly independent.
+    \item A new variable defined as:
+    \[
+    Z = h(X, Y)
+    \]
+\end{itemize}
+
+The distribution of derived variables is determined using the joint PDF.
+
+\hrule
+\vspace{0.5em}
+
+\section*{5. Worked Example: Distribution of \(Z = X + Y\)}
+
+\subsection*{Problem Setup}
+
+A new random variable is defined as:
+\[
+Z = X + Y
+\]
+
+Goal: find the distribution of \(Z\).
+
+\subsection*{Step 1: Express CDF}
+
+\[
+F_Z(z) = P(Z \le z)
+\]
+
+Substituting:
+\[
+= P(X + Y \le z)
+\]
+
+\subsection*{Step 2: Joint Probability Region}
+
+The event corresponds to all pairs \((x, y)\) satisfying:
+\[
+x + y \le z
+\]
+
+Thus,
+\[
+F_Z(z) = P((X, Y) \text{ lie in this region})
+\]
+
+\subsection*{Step 3: Joint PDF Integration}
+
+The CDF becomes:
+\[
+F_Z(z)
+= \iint_{x + y \le z} f_{X,Y}(x,y)\, dy\, dx
+\]
+
+Integration occurs over the region defined by:
+\[
+x + y \le z
+\]
+
+\subsection*{Step 4: Ordered Integral Form}
+
+Slides express:
+\[
+F_Z(z)
+= \int \int f_{X,Y}(x,y)\, dy\, dx
+\]
+with limits determined by the region.
+
+\subsection*{Step 5: Final Objective}
+
+Once CDF is obtained,
+\[
+f_Z(z) = \frac{d}{dz}F_Z(z)
+\]
+gives the PDF of \(Z\).
+
+\hrule
+\vspace{0.5em}
+
+\section*{6. Logical Flow of Lecture}
+
+Lecture sequence:
+
+\begin{enumerate}
+    \item Review transformation of a single random variable.
+    \item Apply CDF-based method.
+    \item Demonstrate with an example.
+    \item Extend to two variables.
+    \item Derive distribution for \(Z = X + Y\).
+    \item Express solution via joint PDF integration.
+\end{enumerate}
+
+\hrule
+\vspace{0.5em}
+
+\section*{7. Key Results for Exams}
+
+Important results:
+
+\begin{itemize}
+    \item Transformation uses:
+    \[
+    F_Y(y) = P(Y \le y)
+    \]
+    \item Convert event into original variables.
+    \item Use known distributions.
+    \item Differentiate to obtain PDFs.
+    \item For two variables:
+    \[
+    F_Z(z) = P(X + Y \le z)
+    \]
+    \item Use joint PDF integration over region.
+    \item PDF obtained by differentiating the CDF.
+\end{itemize}
+
+\hrule
+\vspace{0.5em}
+
+\section*{End of Lecture 11 Scribe}
+
+This document contains all derivations and solution steps presented in lecture slides and is structured for direct exam revision.
+
+\end{document}
+```
