@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture Scribe}
+\cfoot{\thepage}
+
+\newcommand{\solution}{
+	\vspace{0.5cm}
+	\noindent\textbf{\textcolor{blue}{Solution:}}
+	\vspace{0.2cm}
+}
+
+\title{
+	\normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+	\vspace{0.2cm}
+	\textbf{CSE 400: Fundamentals of Probability in Computing}\\
+	\Large Lecture Scribe Submission
+}
+
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+	\begin{tabular}{ll}
+		\textbf{Name:} & {Kush Kelaiya \hspace{2.5in}} \\ [1.5ex]
+		\textbf{Enrollment No:} & {AU2440018 \hspace{2.5in}} \\ [1.5ex]
+		\textbf{Email:} & {kush.k2@ahduni.edu.in \hspace{2.1in}} \\ [1.5ex]
+		\textbf{Group: } & s1\_g1\_fin \\ [1.5ex]
+		\textbf{Lecture:} & 11 \\ [1.5ex]
+		\textbf{Date of Submission:} & {February 17\textsuperscript{th}, 2026 (11:59PM) \hspace{1.2in}}
+	\end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+\section{Transformation of a Random Variable}
+\subsection{Problem Setting}
+Let:
+\begin{itemize}
+	\item $X$ be a continuous random variable (CRV).
+	\item The PDF $f_X(X)$ of $X$ is known \textit{a priori}.
+	\item Define a new random variable: $$Y = g(X)$$
+	\item Objective: Find $$f_Y(Y),\,\,F_Y(Y)$$
+\end{itemize}
+
+\subsection{Case 1: $g(\cdot) Monotonically increasing$}
+Assume:
+\begin{itemize}
+	\item $Y = g(X)$
+	\item $g(\cdot)$ is \textbf{monotonically increasing}
+	\item Hence inverse exists: $$X = g^{-1}(Y)$$
+\end{itemize}
+
+\textbf{Step 1: CDF of $Y$}
+$$F_Y(T) = Pr(Y\leq y)$$
+Substitute $Y = g(X)$
+$$F_Y(Y) = Pr(g(X) \leq y)$$
+Since $g(\cdot)$ is monotonically increasing:
+$$g(X) \leq y \Longleftrightarrow X \leq g^{-1}(y)$$
+Therefore,
+$$
+F_Y(Y) = Pr(X \leq g^{-1}(y))
+F_Y(Y) = F_X(g^{-1}(y))
+$$
+\textbf{Step 2: Differentiate to Obtain PDF}
+$$
+f_Y(Y) = \dfrac{d}{dy}F_Y(Y)$$$$
+f_Y(Y) = \dfrac{d}{dy}\left[ F_X(g^{-1}(y)) \right]
+$$
+Using chain rule:
+$$f_Y(Y) = f_x(g^{-1}(y))\cdot\dfrac{d}{dy}[g^{-1}(y)]$$
+Equivalently: $$f_Y(Y) = f_X(X)\left|\dfrac{dx}{dy}\right|_{x=g^{-1}(y)}$$
+For increasing transformation: $$\dfrac{dx}{dy} > 0$$
+Thus, $$f_Y(Y) = f_X(g^{-1}(y))\cdot\dfrac{dx}{dy}$$
+\subsection{Case 2: $g(\cdot) Monotonically Decreasing$}
+Assume:
+\begin{itemize}
+	\item $g(\cdot)$ is monotonically decreasing.
+\end{itemize}
+\textbf{Step 1: CDF}
+\begin{align*}
+	F_Y(Y) &= Pr(Y \leq y) \\
+	&= Pr(g(X) \leq y)
+\end{align*}
+Since $g(\cdot)$ is decreasing:
+$$g(X) \leq y \Longleftrightarrow X \geq g^{-1}(y)$$
+Therefore,
+$$F_Y(Y) = Pr(X \geq g^{-1}(y))$$
+$$ = 1 - F_X(g^{-1}(y))$$
+\textbf{Step 2: Differentiate}
+\begin{align*}
+	f_Y(Y) &= \dfrac{d}{dy}\left[ 1 - F_X(g^{-1}(y)) \right]\\
+	&= -f_X(g^{-1}(y))\cdot\dfrac{d}{dy}[g^{-1}(y)]
+\end{align*}
+Since for decreasing transformation:
+$$\dfrac{dx}{dy}<0$$
+We write:
+$$f_Y(Y) = f_X(g^{-1}(y))\left| \dfrac{dx}{dy} \right|$$
+
+\subsection{General Formula}
+\begin{center}
+	\boxed{$$f_Y(Y) = f_X(g^{-1}(y))\left| \dfrac{dx}{dy} \right|$$}
+\end{center}
+with support determined by transformation limits.
+
+\section{Worked Example}
+\subsection{Given}
+\begin{align*}
+	X &\sim \text{Uniform}(-1, 1)\\
+	f_X(X) &= \begin{cases}
+		\dfrac{1}{2}, & -1 < x < 1 \\
+		0, otherwise
+	\end{cases}
+\end{align*}
+Define:
+$$Y = sin\left( \dfrac{\pi X}{2} \right)$$
+\subsection{Inverse Transformation}
+\begin{align*}
+	y = sin\left( \dfrac{\pi X}{2} \right) \\
+	x = \dfrac{2}{\pi}sin^{-1}(y)
+\end{align*}
+\subsection{Compute Derivative}
+$$
+\dfrac{dx}{dy} = \dfrac{2}{\pi}\cdot\dfrac{1}{\sqrt{1 - y^2}}
+$$
+\subsection{Apply Formula}
+$$
+f_Y(Y) = f_X(X)\left| \dfrac{dx}{dy} \right|
+$$
+Since $fx(X) = \frac{1}{2}$ in support:
+$$
+f_Y(Y) = \dfrac{1}{2}\dfrac{2}{\pi\dfrac{1}{\sqrt{1 - y^2}}}
+$$
+\begin{center}
+	\boxed{$$f_Y(Y) = \dfrac{1}{\pi\sqrt{1 - y^2}}$$}\;\;\; $-1 < y < 1$
+\end{center}
+Otherwise 0.
+\section{Function of Two Random Variables}
+\subsection{Definition}
+Let:
+$$Z = X + Y$$
+Find:
+\begin{enumerate}
+	\item $f_Z(Z)$
+	\item $F_Z(Z)$, if X and Y are independent
+	\item if $X \sim N(0, 1)$, $Y \sim N(0, 1)$, independent, prove:
+	$$Z \sim N(0, 2)$$
+	\item if $X$, $Y$ exponential with parameter $\lambda$, find $f_Z(Z)$
+\end{enumerate}
+\subsection{Derivation Using CDF}
+$$F_Z(Z) = Pr(Z \leq z) = Pr (X + Y \leq z)$$
+From the geometric interpretation:\\
+Region:
+$$x + y \leq z$$
+Therefore:
+$$
+F_Z(Z) = \int_{-\infty}^{\infty}\int_{-\infty}^{z-y}f_{XY}(x, y)dx\,dy
+$$
+Equivalently changing order:
+$$
+F_Z(Z) = \int_{-\infty}^{\infty}\int_{-\infty}^{z-x}f_{xy}(x, y)dy\,dx
+$$
+\subsection{PDF by Differentiation}
+$$f_Z(Z) = \dfrac{d}{dx}F_Z(Z)$$
+When $X$ and $Y$ are independent:
+$$f_{XY}(x, y) = f_X(x)f_Y(y)$$
+Hence convolution form:
+\begin{center}
+	\boxed{$$f_Z(Z) = \int_{-\infty}^{\infty}f_X(x)f_Y(z-x)dx$$}
+\end{center}
+\subsection{Normal Case}
+Given:
+$$
+X \sim N(0, 1),\;\;\;Y \sim N(0, 1)
+$$
+Independent.
+Using convolution:
+$$
+Z = X + Y
+$$
+Result:
+\begin{center}
+	\boxed{$$Z \sim N(0, 2)$$}
+\end{center}
+\subsection{Exponential Case}
+If $X$, $Y$ exponential with parameter $\lambda$:
+$$
+f_Z(Z) = \int_{0}^{z}\lambda\epsilon^{-\lambda x}\epsilon^{-\lambda(z-x)}dx
+$$
+
+\vfill
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+\small \textit{End of Submission}
+\end{center}
+
+\end{document}
