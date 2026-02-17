@@ -1,0 +1,7 @@
+The following prompt was given to ChatGPT to generate the lecture scribe:
+
+Provide me a lecture scribe for the given lecture. The lecture scribe should be exam-oriented, covering all the details properly. It should only contain the given context, i.e. the contents in the given file. Ensure to include the following:
+all the definitions, notations, assumptions, conditions that are given.
+theorems, axioms, result statements, proofs and derivations. Each of them should be step by step. When including the given details, ensure to provide the derivations and proofs of only those things that are covered in the pdf. Also include the worked up examples given in the PDF. Ensure to include the hand written notes and the explanation given to those notes 
+Note: there should be no content other than the things covered in the given PDF. make sure to not to introduce any new explanations, examples, intuitions, examples, or even a single thing beyond the provided PDF and context.
+Make sure to give the result in a properly mannered and structured way, there should be not random things popping up here and there. Make proper sections, subsections and everything should be properly structured in a single shot. Do not include any extra for feedback or "Here is your....", provide only and only the lecture scribe material.
