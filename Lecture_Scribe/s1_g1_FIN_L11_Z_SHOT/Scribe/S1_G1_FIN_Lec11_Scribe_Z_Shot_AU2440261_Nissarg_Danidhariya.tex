@@ -1,0 +1,135 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+
+% Page geometry
+\geometry{a4paper, margin=1in}
+
+% Header and Footer setup
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\lhead{Name: Nissarg Danidhariya \\ Enrollment: AU2440261}
+\rhead{Course: CSE400 \\ Date: February 10, 2026}
+\setlength{\headheight}{28pt} % Adjust for multiline header
+
+\begin{document}
+
+\begin{center}
+    \textbf{\Large Lecture Scribe: Transformation of Random Variables}
+\end{center}
+
+\section*{Outline}
+\begin{enumerate}
+    \item Transformation of Random Variables ($Y = g(X)$)
+    \item Function of Two Random Variables ($Z = X + Y$)
+    \item Illustrative Examples and Derivations
+\end{enumerate}
+
+\section{Transformation of a Single Random Variable}
+\subsection*{Problem Definition}
+Let $X$ be a random variable (RV) where the Probability Density Function (PDF) $f_X(x)$ and Cumulative Distribution Function (CDF) $F_X(x)$ are known a priori.
+We define a new random variable $Y$ through the transformation:
+$$ Y = g(X) $$
+\textbf{Objective:} Find the PDF of the new random variable, denoted as $f_Y(y)$.
+
+\subsection*{Derivation: The CDF Technique}
+To find $f_Y(y)$, we first determine the CDF $F_Y(y)$ and then differentiate it with respect to $y$. We consider two cases based on the monotonicity of $g(x)$.
+
+\subsubsection*{Case 1: Monotonically Increasing Function}
+If $g(x)$ is monotonically increasing, there exists a unique inverse function $x = g^{-1}(y)$.
+\begin{itemize}
+    \item \textbf{Step 1: Determine the CDF of Y}
+    $$ F_Y(y) = \Pr(Y \le y) = \Pr(g(X) \le y) $$
+    Since $g$ is increasing, the inequality direction is preserved:
+    $$ F_Y(y) = \Pr(X \le g^{-1}(y)) = F_X(g^{-1}(y)) $$
+    
+    \item \textbf{Step 2: Differentiate to find the PDF}
+    $$ f_Y(y) = \frac{d}{dy} [F_Y(y)] = \frac{d}{dy} [F_X(g^{-1}(y))] $$
+    Using the chain rule:
+    $$ f_Y(y) = f_X(g^{-1}(y)) \cdot \frac{d}{dy} g^{-1}(y) $$
+    $$ f_Y(y) = f_X(x) \frac{dx}{dy} $$
+\end{itemize}
+
+\subsubsection*{Case 2: Monotonically Decreasing Function}
+If $g(x)$ is monotonically decreasing:
+\begin{itemize}
+    \item \textbf{Step 1: Determine the CDF of Y}
+    $$ F_Y(y) = \Pr(Y \le y) = \Pr(g(X) \le y) $$
+    Since $g$ is decreasing, the inequality direction flips:
+    $$ F_Y(y) = \Pr(X \ge g^{-1}(y)) = 1 - F_X(g^{-1}(y)) $$
+    
+    \item \textbf{Step 2: Differentiate to find the PDF}
+    $$ f_Y(y) = \frac{d}{dy} [1 - F_X(g^{-1}(y))] = 0 - f_X(g^{-1}(y)) \frac{d}{dy} g^{-1}(y) $$
+    $$ f_Y(y) = - f_X(x) \frac{dx}{dy} $$
+\end{itemize}
+
+\subsubsection*{General Formula}
+Since the PDF must always be non-negative, we combine both cases using the absolute value:
+$$ f_Y(y) = f_X(g^{-1}(y)) \left| \frac{d}{dy} g^{-1}(y) \right| $$
+Or equivalently:
+$$ f_Y(y) = f_X(x) \left| \frac{dx}{dy} \right| \quad \bigg|_{x = g^{-1}(y)} $$
+
+\section{Illustrative Example}
+\textbf{Problem:} Let $X$ be a random variable uniformly distributed over the interval $(-1, 1)$. Find the PDF of $Y$ given the transformation:
+$$ Y = \sin\left(\frac{\pi X}{2}\right) $$
+
+\textbf{Solution:}
+\begin{enumerate}
+    \item \textbf{Define $f_X(x)$:}
+    $$ f_X(x) = \begin{cases} \frac{1}{2} & -1 < x < 1 \\ 0 & \text{otherwise} \end{cases} $$
+    
+    \item \textbf{Find the Inverse Relation:}
+    $$ y = \sin\left(\frac{\pi x}{2}\right) \implies x = \frac{2}{\pi} \sin^{-1}(y) $$
+    
+    \item \textbf{Compute the Derivative $\frac{dx}{dy}$:}
+    $$ \frac{dx}{dy} = \frac{2}{\pi} \frac{d}{dy}[\sin^{-1}(y)] = \frac{2}{\pi} \frac{1}{\sqrt{1-y^2}} $$
+    
+    \item \textbf{Determine Limits for Y:}
+    \begin{itemize}
+        \item At $x = -1$: $y = \sin(-\frac{\pi}{2}) = -1$
+        \item At $x = 1$: $y = \sin(\frac{\pi}{2}) = 1$
+        \item Range: $-1 < y < 1$
+    \end{itemize}
+    
+    \item \textbf{Calculate $f_Y(y)$:}
+    $$ f_Y(y) = f_X(x) \cdot \left| \frac{dx}{dy} \right| $$
+    $$ f_Y(y) = \frac{1}{2} \cdot \left| \frac{2}{\pi \sqrt{1-y^2}} \right| $$
+    $$ f_Y(y) = \frac{1}{\pi \sqrt{1-y^2}}, \quad -1 < y < 1 $$
+\end{enumerate}
+
+\section{Function of Two Random Variables}
+\textbf{Context:} We consider a derived random variable $Z$ which is a function of two random variables $X$ and $Y$:
+$$ Z = g(X, Y) $$
+Specifically, we analyze the sum:
+$$ Z = X + Y $$
+
+\subsection*{Derivation of the CDF}
+To find the distribution of $Z$, we start with the CDF formulation:
+$$ F_Z(z) = \Pr(Z \le z) = \Pr(X + Y \le z) $$
+
+This probability is the double integral of the joint PDF $f_{XY}(x, y)$ over the region where $x + y \le z$ (equivalently $y \le z - x$).
+
+\textbf{Integral Setup:}
+$$ F_Z(z) = \int_{x=-\infty}^{\infty} \int_{y=-\infty}^{z-x} f_{XY}(x, y) \, dy \, dx $$
+
+\section{Class Problems (Exam Focus: 10 Marks)}
+The following problems were presented for solution and proofs:
+
+\begin{enumerate}
+    \item \textbf{Sum of Independent Normal RVs:}
+    Let $X \sim \mathcal{N}(0, 1)$ and $Y \sim \mathcal{N}(0, 1)$ be independent random variables.
+    \textbf{Prove that:} 
+    $$ Z = X + Y \sim \mathcal{N}(0, 2) $$
+    
+    \item \textbf{Sum of Exponential RVs:}
+    If $X$ and $Y$ are independent exponential random variables with parameter $\lambda$, find the PDF $f_Z(z)$.
+    
+    \item \textbf{General Independence Case:}
+    Find $f_Z(z)$ if $X$ and $Y$ are independent. (This generally leads to the convolution of the marginal PDFs).
+\end{enumerate}
+
+\end{document}
