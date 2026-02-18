@@ -1,0 +1,303 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{setspace}
+
+% ===================== PAGE STYLE =====================
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CSE400 -- Lecture 11}
+\lhead{Transformation of Random Variables}
+\rfoot{\thepage}
+
+% ===================== FORMATTING =====================
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\onehalfspacing
+
+\begin{document}
+
+% ===================== TITLE =====================
+\begin{center}
+    {\Large \textbf{CSE400 -- Fundamentals of Probability in Computing}}\\
+    \vspace{4pt}
+    {\large \textbf{Lecture 11: Transformation of Random Variables}}\\
+    \vspace{4pt}
+    \textit{Source: Lecture 11 Slides}
+\end{center}
+
+\hrule
+\vspace{12pt}
+
+% =====================================================
+\section*{1. Transformation of Random Variables}
+
+\subsection*{Definition}
+
+Let $X$ be a random variable with known distribution.
+
+If a new random variable $Y$ is defined as a function of $X$, i.e.,
+\[
+Y = g(X),
+\]
+then $Y$ is called a \textbf{transformation} of the random variable $X$.
+
+% -----------------------------------------------------
+
+\subsection*{Objective}
+
+Determine the probability distribution of $Y$ given:
+\begin{itemize}[leftmargin=1.5em]
+    \item The distribution of $X$
+    \item The transformation function $g(\cdot)$
+\end{itemize}
+
+% -----------------------------------------------------
+
+\subsection*{Method (Continuous Case)}
+
+Assume:
+\begin{itemize}[leftmargin=1.5em]
+    \item $X$ is continuous
+    \item $g(\cdot)$ is one-to-one and differentiable
+    \item The inverse function exists: $x = g^{-1}(y)$
+\end{itemize}
+
+Then the pdf of $Y$ is:
+
+\[
+f_Y(y) = f_X(x)\left| \frac{dx}{dy} \right|
+\quad \text{where } x = g^{-1}(y)
+\]
+
+\begin{tcolorbox}
+\textbf{Key Formula:}
+\[
+f_Y(y) = f_X(g^{-1}(y)) 
+\left| \frac{d}{dy}g^{-1}(y) \right|
+\]
+\end{tcolorbox}
+
+% -----------------------------------------------------
+
+\subsection*{Conditions}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item $g(\cdot)$ must be one-to-one
+    \item $g(\cdot)$ must be differentiable
+    \item The inverse must exist in the region of interest
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+% =====================================================
+\section*{2. Function of Two Random Variables}
+
+\subsection*{Definition}
+
+Let $X$ and $Y$ be random variables with joint pdf:
+\[
+f_{X,Y}(x,y)
+\]
+
+Define new random variables:
+\[
+U = g_1(X,Y), \quad V = g_2(X,Y)
+\]
+
+Then $(U,V)$ is a transformation of $(X,Y)$.
+
+% -----------------------------------------------------
+
+\subsection*{Objective}
+
+Determine the joint distribution:
+\[
+f_{U,V}(u,v)
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Method (Joint Transformation)}
+
+Assume:
+\begin{itemize}[leftmargin=1.5em]
+    \item The transformation is one-to-one
+    \item The inverse transformation exists:
+    \[
+    x = x(u,v), \quad y = y(u,v)
+    \]
+\end{itemize}
+
+Then:
+
+\[
+f_{U,V}(u,v) = f_{X,Y}(x,y)\, |J|
+\]
+
+where $J$ is the Jacobian determinant:
+
+\[
+J =
+\begin{vmatrix}
+\dfrac{\partial x}{\partial u} & \dfrac{\partial x}{\partial v} \\
+\dfrac{\partial y}{\partial u} & \dfrac{\partial y}{\partial v}
+\end{vmatrix}
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Jacobian Determinant}
+
+\[
+J =
+\frac{\partial x}{\partial u}
+\frac{\partial y}{\partial v}
+-
+\frac{\partial x}{\partial v}
+\frac{\partial y}{\partial u}
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Conditions}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item Transformation must be one-to-one
+    \item Partial derivatives must exist
+    \item Jacobian must be non-zero in the region
+\end{itemize}
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+% =====================================================
+\section*{3. Illustrative Example: $Z = X + Y$}
+
+Let:
+\begin{itemize}[leftmargin=1.5em]
+    \item $X, Y$ be continuous random variables
+    \item Joint pdf: $f_{X,Y}(x,y)$
+\end{itemize}
+
+Define:
+\[
+Z = X + Y
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Step 1: Define Auxiliary Variable}
+
+Let:
+\[
+W = Y
+\]
+
+Thus,
+\[
+Z = X + Y, \quad W = Y
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Step 2: Inverse Transformation}
+
+From:
+\[
+W = Y \Rightarrow Y = W
+\]
+
+From:
+\[
+Z = X + Y \Rightarrow X = Z - W
+\]
+
+Thus:
+\[
+x = z - w, \quad y = w
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Step 3: Compute Jacobian}
+
+\[
+J =
+\begin{vmatrix}
+\dfrac{\partial x}{\partial z} & \dfrac{\partial x}{\partial w} \\
+\dfrac{\partial y}{\partial z} & \dfrac{\partial y}{\partial w}
+\end{vmatrix}
+\]
+
+Compute partial derivatives:
+\[
+\frac{\partial x}{\partial z} = 1, \quad
+\frac{\partial x}{\partial w} = -1
+\]
+\[
+\frac{\partial y}{\partial z} = 0, \quad
+\frac{\partial y}{\partial w} = 1
+\]
+
+Therefore,
+
+\[
+J =
+\begin{vmatrix}
+1 & -1 \\
+0 & 1
+\end{vmatrix}
+= (1)(1) - (-1)(0)
+= 1
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Step 4: Joint PDF of $(Z,W)$}
+
+\[
+f_{Z,W}(z,w) = f_{X,Y}(z-w, w)\, |1|
+\]
+
+\[
+f_{Z,W}(z,w) = f_{X,Y}(z-w, w)
+\]
+
+% -----------------------------------------------------
+
+\subsection*{Step 5: Marginal PDF of $Z$}
+
+\[
+f_Z(z) =
+\int_{-\infty}^{\infty}
+f_{X,Y}(z-w, w)\, dw
+\]
+
+\begin{tcolorbox}
+\textbf{Final Result:}
+\[
+f_Z(z) =
+\int_{-\infty}^{\infty}
+f_{X,Y}(z-w, w)\, dw
+\]
+\end{tcolorbox}
+
+\vspace{12pt}
+\hrule
+\vspace{6pt}
+
+\begin{center}
+\textbf{End of Lecture 11 Scribe}
+\end{center}
+
+\end{document}
