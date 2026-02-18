@@ -1,0 +1,13 @@
+Create a lecture scribe to be used as exam-focused reference material for my course CSE 400.
+
+Base the content strictly on the provided sources (Lecture 11 slides and the relevant textbook material only).
+
+The scribe must include:
+	•	All definitions and notation introduced in the lecture
+	•	All stated assumptions and conditions
+	•	All theorems or formal result statements
+	•	Proofs or derivations exactly as presented in the lecture, written step by step
+	•	Worked examples only if they were covered in the lecture, including all intermediate steps
+
+Do not add any new explanations, intuition, examples, interpretations, or results.
+Do not extend beyond the scope of the given material.
