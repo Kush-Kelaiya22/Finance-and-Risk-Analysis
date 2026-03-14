@@ -1,0 +1,20 @@
+CSE400
+Ishika Patel
+AU2440088
+L16
+
+PROMPT:
+Generate a lecture scribe intended to serve as exam-oriented reference material for revision.
+
+Use only the provided lecture slides and relevant textbook content as context. Do not introduce any material, explanations, examples, intuition, or assumptions that are not explicitly present in the provided context.
+
+The scribe must faithfully reconstruct what was taught in the lecture and should allow a student to revise the material reliably for a closed-notes exam.
+
+Include, exactly as presented in the lecture materials:
+- Definitions and notation
+- Assumptions and conditions
+- Statements of theorems or results
+- Proofs or derivations, step by step, when they appear in the lecture
+- Worked examples with intermediate steps, only if they appear in the lecture
+
+Follow the structure and scope of the lecture strictly. Prioritize correctness and completeness. Do not invent or infer missing content. give the same in the chat itself 

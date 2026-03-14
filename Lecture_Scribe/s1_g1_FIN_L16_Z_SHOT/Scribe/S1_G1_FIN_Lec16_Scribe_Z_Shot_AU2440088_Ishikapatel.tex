@@ -1,0 +1,314 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor} 
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{L16 Scribe}
+\cfoot{\thepage}
+
+% ===================== CUSTOM COMMANDS =====================
+\newcommand{\solution}{
+    \vspace{0.5cm}
+    \noindent\textbf{\textcolor{blue}{Solution:}}
+    \vspace{0.2cm}
+}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing}\\
+    \Large Lecture scribe submission
+}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+    \begin{tabular}{ll}
+        \textbf{Name:} & Ishika Patel \\[1.5ex]
+        \textbf{Enrollment No:} & AU2440088 \\[1.5ex]
+        \textbf{Group:} & s1\_g1\_fin \\[1.5ex]
+        \textbf{Email:} & ishika.p3@ahduni.edu.in \\[1.5ex]
+        \textbf{Lecture:} & L15--L18 \\[1.5ex]
+        \textbf{Date of Submission:} & March 17\textsuperscript{th}, 2026 (11:59 PM)
+    \end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+\section{Lecture Scribe}
+
+\textbf{CSE400 – Fundamentals of Probability in Computing}
+
+\textbf{Lecture L15--L18: Joint Random Variables, Joint Distributions, and Examples}
+
+Instructor: Dhaval Patel, PhD
+
+SEAS – Ahmedabad University
+
+Date: March 10, 2026
+
+\section{Outline}
+
+The lecture covers the following topics:
+
+\begin{itemize}
+\item Why Study Joint Random Variables?
+\item Discrete Case
+\item Joint PMF Table Representation
+\item Example: Rolling Two Dice
+\item Continuous Case
+\item Geometric Interpretation
+\item Worked Example
+\item Joint Cumulative Distribution Function
+\item Definition of Joint CDF
+\item Continuous Case
+\item Discrete Case
+\item Properties of the Joint CDF
+\item Comprehensive Example
+\end{itemize}
+
+\section{Why Study Joint Random Variables?}
+
+In science and in real life, we are often interested in two or more random variables at the same time.
+
+\subsection{Example 1: Smart Transportation}
+
+Two random variables:
+
+\[
+X = \text{Vehicle Speed}
+\]
+
+\[
+Y = \text{Traffic Density}
+\]
+
+Question:
+
+Can speed be high when the traffic density is also high?
+
+Answer:
+
+Yes / No
+
+Conclusion:
+
+X and Y are correlated random variables.
+
+Real ITS Applications (probabilistic analysis):
+
+\begin{itemize}
+\item Adaptive traffic signals
+\item Congestion prediction
+\item Autonomous vehicle routing
+\end{itemize}
+
+\subsection{Example 2: Wireless Network Performance}
+
+Two random variables:
+
+\[
+X = \text{Signal-to-Noise Ratio (SNR)}
+\]
+
+\[
+Y = \text{Data Throughput}
+\]
+
+Reason for studying jointly:
+
+Throughput depends on SNR.
+
+Both vary due to:
+
+\begin{itemize}
+\item fading
+\item interference
+\item congestion
+\end{itemize}
+
+Question:
+
+If SNR is high, will throughput always be high?
+
+Answer:
+
+Yes / No
+
+Reasoning:
+
+Network congestion creates conditional relationships.
+
+Applications in networking:
+
+\begin{itemize}
+\item 5G scheduling
+\item Adaptive modulation
+\item Network planning
+\end{itemize}
+
+\subsection{Example 3: Weather Prediction}
+
+Random variables:
+
+\[
+X = \text{Rainfall}
+\]
+
+\[
+Y = \text{Temperature}
+\]
+
+Application:
+
+Weather forecasting.
+
+\subsection{Example 4: Drone Delivery}
+
+Random variables:
+
+\[
+X = \text{Wind Speed}
+\]
+
+\[
+Y = \text{Delivery Time}
+\]
+
+Application:
+
+Logistics and UAV systems.
+
+\subsection{Example 5: Rolling Two Dice}
+
+Two random variables:
+
+\[
+X = \text{Outcome of first die}
+\]
+
+\[
+Y = \text{Outcome of second die}
+\]
+
+Example events:
+
+\[
+X + Y = 7
+\]
+
+\[
+X > Y
+\]
+
+This requires the joint PMF.
+
+Many (infinite) examples exist where multiple random variables must be studied together.
+
+\section{Discrete Case – Joint PMF}
+
+The discrete case introduces the concept of the Joint Probability Mass Function (Joint PMF) for two discrete random variables.
+
+\subsection{Joint PMF Table Representation}
+
+The joint PMF can be represented using a table where:
+
+\begin{itemize}
+\item Rows correspond to values of one random variable.
+\item Columns correspond to values of the other random variable.
+\item Each cell contains the joint probability.
+\end{itemize}
+
+\section{Example: Rolling Two Dice}
+
+Two random variables are defined:
+
+\[
+X = \text{Outcome of die 1}
+\]
+
+\[
+Y = \text{Outcome of die 2}
+\]
+
+The joint PMF describes probabilities of all combinations:
+
+\[
+P(X=x,Y=y)
+\]
+
+The joint distribution can be represented in a table form.
+
+\section{Continuous Case – Joint PDF}
+
+For continuous random variables, the joint distribution is described using a Joint Probability Density Function (Joint PDF).
+
+The continuous case is interpreted geometrically.
+
+\section{Example (Continuous Case)}
+
+An example is provided illustrating a joint probability density function and the computation of probabilities.
+
+The example is followed by step-by-step solutions.
+
+\section{Joint Cumulative Distribution Function (Joint CDF)}
+
+\subsection{Definition}
+
+The Joint CDF for two random variables $X$ and $Y$ is defined as:
+
+\[
+F_{X,Y}(x,y) = P(X \le x, Y \le y)
+\]
+
+\subsection{Joint CDF – Continuous Case}
+
+The joint CDF can be obtained from the joint PDF by integrating over the appropriate region.
+
+\subsection{Joint CDF – Discrete Case}
+
+For discrete random variables, the joint CDF is obtained by summing the joint PMF over the appropriate values.
+
+\section{Properties of the Joint CDF}
+
+The lecture introduces the properties of the Joint CDF.
+
+(These properties are listed across multiple slides.)
+
+\section{Summary of Topics Covered}
+
+The lecture covered:
+
+\begin{itemize}
+\item Motivation for studying joint random variables
+\item Joint PMF for discrete random variables
+\item Joint PDF for continuous random variables
+\item Table representation of joint distributions
+\item Example: Rolling two dice
+\item Joint Cumulative Distribution Function
+\item Joint CDF in continuous and discrete cases
+\item Properties of the joint CDF
+\end{itemize}
+
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+    \small \textit{End of Submission}
+\end{center}
+
+\end{document}
