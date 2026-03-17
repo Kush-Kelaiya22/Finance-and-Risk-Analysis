@@ -1,0 +1,342 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{array}
+
+% ===================== HEADER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{CSE 400}
+\lhead{Lecture Scribe (L15--L17)}
+\rfoot{\thepage}
+
+% ===================== DOCUMENT =====================
+\begin{document}
+
+\begin{center}
+    {\LARGE \textbf{CSE 400 -- Lecture Scribe (L15--L17)}} \\
+    \vspace{0.3cm}
+    {\large Joint Random Variables and Joint Distributions}
+\end{center}
+
+\vspace{0.5cm}
+
+% =====================================================
+\section*{1. Motivation: Joint Random Variables}
+
+\begin{itemize}
+    \item In many situations, we consider \textbf{two (or more) random variables simultaneously}.
+    
+    \item Examples:
+    \begin{itemize}
+        \item Height and weight
+        \item IQ and birthweight
+        \item Exercise frequency and heart disease
+        \item Air pollution and illness rate
+        \item Number of friends and age
+    \end{itemize}
+    
+    \item Joint distributions allow:
+    \begin{itemize}
+        \item Computation of probabilities involving multiple variables
+        \item Understanding relationships between variables
+    \end{itemize}
+    
+    \item If variables are not independent:
+    \begin{itemize}
+        \item Dependence is analyzed using \textbf{covariance and correlation}
+    \end{itemize}
+\end{itemize}
+
+% =====================================================
+\section*{2. Discrete Case -- Joint PMF}
+
+\subsection*{2.1 Setup}
+
+Let:
+\[
+X = \{x_1, x_2, \dots, x_n\}, \quad 
+Y = \{y_1, y_2, \dots, y_m\}
+\]
+
+Then:
+\[
+(X,Y) \in \{(x_1,y_1), (x_1,y_2), \dots, (x_n,y_m)\}
+\]
+
+% -----------------------------------------------------
+\subsection*{2.2 Definition (Joint PMF)}
+
+\[
+p(x_i, y_j) = P(X = x_i, Y = y_j)
+\]
+
+\begin{itemize}
+    \item Represents probability of the \textbf{joint outcome occurring simultaneously}
+\end{itemize}
+
+% -----------------------------------------------------
+\subsection*{2.3 Joint PMF Table Representation}
+
+\[
+\begin{array}{c|cccc}
+X \backslash Y & y_1 & y_2 & \cdots & y_m \\
+\hline
+x_1 & p(x_1,y_1) & p(x_1,y_2) & \cdots & p(x_1,y_m) \\
+x_2 & p(x_2,y_1) & p(x_2,y_2) & \cdots & p(x_2,y_m) \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+x_n & p(x_n,y_1) & p(x_n,y_2) & \cdots & p(x_n,y_m)
+\end{array}
+\]
+
+\subsubsection*{Key Properties}
+
+\begin{enumerate}
+    \item \[
+    0 \le p(x_i, y_j) \le 1
+    \]
+    
+    \item \[
+    \sum_{i=1}^{n} \sum_{j=1}^{m} p(x_i, y_j) = 1
+    \]
+\end{enumerate}
+
+% -----------------------------------------------------
+\subsection*{2.4 Example: Rolling Two Dice}
+
+\textbf{Experiment:} Roll two fair dice
+
+\textbf{Define:}
+\begin{itemize}
+    \item $X$ : value on first die
+    \item $T$ : total (sum) of both dice
+\end{itemize}
+
+\textbf{Joint Probability:}
+\[
+P((i,j)) = \frac{1}{36}
+\]
+
+\begin{itemize}
+    \item Each outcome has equal probability
+    \item Joint PMF table consists of values $0$ or $\frac{1}{36}$
+    \item $X$ and $T$ are \textbf{not independent}
+\end{itemize}
+
+% =====================================================
+\section*{3. Continuous Case -- Joint PDF}
+
+\subsection*{3.1 Analogy with Discrete Case}
+
+\begin{itemize}
+    \item Discrete $\rightarrow$ Continuous:
+    \begin{itemize}
+        \item Values $\rightarrow$ Intervals
+        \item PMF $\rightarrow$ PDF
+        \item Sums $\rightarrow$ Double integrals
+    \end{itemize}
+\end{itemize}
+
+% -----------------------------------------------------
+\subsection*{3.2 Support (Domain)}
+
+If:
+\[
+X \in [a,b], \quad Y \in [c,d]
+\]
+
+Then:
+\[
+(X,Y) \in [a,b] \times [c,d]
+\]
+
+% -----------------------------------------------------
+\subsection*{3.3 Definition (Joint PDF)}
+
+\[
+P((X,Y) \text{ in small area } dx,dy) \approx f(x,y)\,dx\,dy
+\]
+
+% -----------------------------------------------------
+\subsection*{3.4 Key Properties}
+
+\begin{enumerate}
+    \item \[
+    f(x,y) \ge 0
+    \]
+    
+    \item \[
+    \int_c^d \int_a^b f(x,y)\,dx\,dy = 1
+    \]
+\end{enumerate}
+
+\begin{itemize}
+    \item Note: $f(x,y)$ may be \textbf{greater than 1}
+\end{itemize}
+
+% =====================================================
+\section*{4. Worked Example (Continuous Case)}
+
+\subsection*{Given}
+
+\[
+f(x,y) = 4xy, \quad 0 \le x \le 1,\; 0 \le y \le 1
+\]
+
+\begin{itemize}
+    \item Domain: $[0,1]^2$
+\end{itemize}
+
+% -----------------------------------------------------
+\subsection*{Task 1: Check Validity (Normalization)}
+
+\[
+\int_0^1 \int_0^1 4xy \, dx \, dy
+\]
+
+\[
+= \int_0^1 \left( \int_0^1 4xy \, dx \right) dy
+\]
+
+\[
+= \int_0^1 4y \left( \int_0^1 x \, dx \right) dy
+\]
+
+\[
+= \int_0^1 4y \left[ \frac{x^2}{2} \right]_0^1 dy
+\]
+
+\[
+= \int_0^1 4y \cdot \frac{1}{2} \, dy
+\]
+
+\[
+= \int_0^1 2y \, dy
+\]
+
+\[
+= \left[ y^2 \right]_0^1 = 1
+\]
+
+\textbf{Conclusion:}
+\begin{itemize}
+    \item $f(x,y) \ge 0$ and total probability $=1$
+    \item Hence, valid joint PDF
+\end{itemize}
+
+% -----------------------------------------------------
+\subsection*{Task 2: Compute $P(A)$}
+
+\[
+A = \{X < 0.5,\; Y > 0.5\}
+\]
+
+\[
+P(A) = \int_{0}^{0.5} \int_{0.5}^{1} 4xy \, dy \, dx
+\]
+
+\[
+= \int_0^{0.5} \left( \int_{0.5}^{1} 4xy \, dy \right) dx
+\]
+
+\[
+= \int_0^{0.5} 4x \left[ \frac{y^2}{2} \right]_{0.5}^{1} dx
+\]
+
+\[
+= \int_0^{0.5} 4x \cdot \frac{1 - 0.25}{2} dx
+\]
+
+\[
+= \int_0^{0.5} 4x \cdot \frac{0.75}{2} dx
+\]
+
+\[
+= \int_0^{0.5} 2x(0.75) dx
+\]
+
+\[
+= \int_0^{0.5} 1.5x \, dx
+\]
+
+\[
+= \left[ \frac{1.5x^2}{2} \right]_0^{0.5} = \frac{3}{16}
+\]
+
+% =====================================================
+\section*{5. Joint Cumulative Distribution Function (CDF)}
+
+\subsection*{5.1 Notation}
+
+\[
+X \le x,\; Y \le y \equiv \{X \le x \text{ and } Y \le y\}
+\]
+
+% -----------------------------------------------------
+\subsection*{5.2 Definition}
+
+\[
+F(x,y) = P(X \le x,\; Y \le y)
+\]
+
+% =====================================================
+\section*{6. Joint CDF -- Continuous Case}
+
+\[
+F(x,y) = \int_c^y \int_a^x f(u,v)\,du\,dv
+\]
+
+\subsection*{Recovering Joint PDF}
+
+\[
+f(x,y) = \frac{\partial^2}{\partial x \partial y} F(x,y)
+\]
+
+% =====================================================
+\section*{7. Joint CDF -- Discrete Case}
+
+\[
+F(x,y) = \sum_{x_i \le x} \sum_{y_j \le y} p(x_i,y_j)
+\]
+
+\subsection*{Interpretation}
+
+\begin{itemize}
+    \item Sum all probabilities where:
+    \begin{itemize}
+        \item $x_i \le x$
+        \item $y_j \le y$
+    \end{itemize}
+\end{itemize}
+
+% =====================================================
+\section*{8. Properties of Joint CDF}
+
+\begin{enumerate}
+    \item \textbf{Non-decreasing:}
+    \[
+    F(x,y) \text{ does not decrease as } x \text{ or } y \text{ increases}
+    \]
+    
+    \item \textbf{Lower-left limit:}
+    \[
+    \lim_{(x,y)\to(-\infty,-\infty)} F(x,y) = 0
+    \]
+    
+    \item \textbf{Upper-right limit:}
+    \[
+    \lim_{(x,y)\to(\infty,\infty)} F(x,y) = 1
+    \]
+\end{enumerate}
+
+% =====================================================
+\begin{center}
+    \textbf{--- End of Scribe ---}
+\end{center}
+
+\end{document}
