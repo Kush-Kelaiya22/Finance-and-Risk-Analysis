@@ -1,0 +1,7 @@
+Create a high-quality, exam-focused lecture scribe for CSE 400 (Lectures 15–17) using only the provided slides and prescribed textbook sections. Do not include any external knowledge, intuition, or added explanations.
+
+The scribe must include all definitions and notation exactly as introduced; all assumptions, conditions, and constraints; all theorems, lemmas, and formal results written completely; all proofs and derivations presented step-by-step with no skipped steps, preserving the original logical structure; all algorithms/procedures (if any) in clear stepwise form; and all worked examples only if covered in the lecture, with full intermediate steps.
+
+Ensure the output is well-structured and exam-ready, using clear headings, bullet points for definitions/assumptions, and numbered steps for proofs. Use proper mathematical notation and keep it concise but complete.
+
+Strictly do not add intuition, interpretations, alternative methods, extra examples, or omit any steps. The final scribe should be compact, rigorous, and fully self-contained for direct exam revision.
