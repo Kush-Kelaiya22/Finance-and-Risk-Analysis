@@ -1,0 +1,289 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+
+\title{Lecture 21 -- Tail Bounds}
+\author{Course: CSE400 \\ Instructor: Dhaval Patel, PhD}
+\date{March 24, 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Tails}
+
+\subsection*{Definition}
+
+The \textbf{tail} of a random variable $X$ is defined as:
+
+\[
+P(X > x)
+\]
+
+\subsection*{Why Do We Care About Tails?}
+
+Examples of tail events include:
+
+\begin{itemize}
+\item Jobs delayed more than 24 hours
+\item Packets dropped due to full buffer
+\end{itemize}
+
+\textbf{Key Idea}
+
+\begin{itemize}
+\item Mean $\rightarrow$ average behavior (easy to compute)
+\item Tail $\rightarrow$ rare extreme events (hard to compute)
+\end{itemize}
+
+\subsection*{Why Are Tails Hard to Compute?}
+
+Computing tail probabilities requires summing many small probabilities.
+
+Thus tail probabilities often involve large summations over multiple probability terms.
+
+\section{Tails Example 1}
+
+\subsection*{Problem}
+
+Suppose you are distributing $n$ jobs among $n$ servers at random.
+
+\textbf{Question:}
+
+What is the probability that a particular server gets more than $k$ jobs?
+
+\subsection*{Intuition}
+
+\begin{itemize}
+\item Jobs are assigned randomly
+\item Most servers receive few jobs
+\item Occasionally one server receives many jobs
+\end{itemize}
+
+This situation represents a \textbf{tail event} (rare overload).
+
+\subsection*{Distribution}
+
+Let
+
+\[
+X \sim \text{Binomial}(n,p)
+\]
+
+The tail probability is
+
+\[
+P(X > k)
+\]
+
+which requires summing probabilities of binomial outcomes larger than $k$.
+
+\section{Tails Example 2}
+
+\subsection*{Problem}
+
+Jobs arrive to a datacenter according to a Poisson process with rate $\lambda$ jobs/hour.
+
+\textbf{Question:}
+
+What is the probability that more than $k$ jobs arrive during the first hour?
+
+\subsection*{Intuition}
+
+\begin{itemize}
+\item Jobs arrive randomly over time
+\item Most hours have moderate arrivals
+\item Occasionally there is a burst of arrivals
+\end{itemize}
+
+This represents a \textbf{tail event} (sudden spike in load).
+
+\subsection*{Distribution}
+
+Let
+
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+Tail probability:
+
+\[
+P(X > k)
+\]
+
+This requires summing probabilities for all values greater than $k$.
+
+\section{Why Tail Bounds?}
+
+Exact tail probabilities are often difficult to compute.
+
+Examples of exact computations:
+
+\[
+P(X > k) = \sum_{i=k}^{\infty} P(X=i)
+\]
+
+or
+
+\[
+P(X > k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+These expressions involve:
+
+\begin{itemize}
+\item Long summations
+\item Complicated calculations
+\end{itemize}
+
+\subsection*{Main Idea}
+
+Instead of computing the exact value
+
+\[
+P(X > k)
+\]
+
+we compute an \textbf{upper bound}.
+
+\textbf{Approach}
+
+\[
+P(X > k) = ?
+\]
+
+Bound it as:
+
+\[
+P(X > k) < \text{something simple}
+\]
+
+\textbf{Key Idea}
+
+\begin{itemize}
+\item Find an upper bound
+\item The bound is easier to compute
+\item The bound still guarantees safety
+\end{itemize}
+
+Thus we approximate safely rather than computing exactly.
+
+\section{Running Example (Key Idea)}
+
+Throughout the lecture several tail bounds will be developed.
+
+Each bound will be tested using the same example.
+
+\subsection*{Example Distribution}
+
+\[
+X \sim \text{Binomial}\left(n, \frac{1}{2}\right)
+\]
+
+\subsection*{Experiment}
+
+Flip a fair coin $n$ times.
+
+Let
+
+\[
+X = \text{number of heads}
+\]
+
+\subsection*{Mean}
+
+\[
+E[X] = \frac{n}{2}
+\]
+
+\subsection*{Tail Region}
+
+The tail region corresponds to \textbf{unusually many heads}.
+
+\subsection*{Question}
+
+Compute
+
+\[
+P\left(X > \frac{3n}{4}\right)
+\]
+
+This represents a rare event far from the mean.
+
+\section{Markov's Inequality}
+
+\subsection*{Key Idea}
+
+\begin{itemize}
+\item Uses only the mean of the random variable
+\item Very large values of a random variable must be rare
+\end{itemize}
+
+\subsection*{Proof Idea}
+
+Start from the definition of expectation:
+
+\[
+E[X] = \sum_x x P_X(x)
+\]
+
+Split the summation:
+
+\[
+E[X] =
+\sum_{x<a} xP_X(x)
++
+\sum_{x\ge a} xP_X(x)
+\]
+
+Focus on the second term.
+
+Since $x \ge a$, we can replace $x$ with $a$:
+
+\[
+E[X] \ge a \sum_{x \ge a} P_X(x)
+\]
+
+But
+
+\[
+\sum_{x \ge a} P_X(x) = P(X \ge a)
+\]
+
+Thus
+
+\[
+E[X] \ge a \, P(X \ge a)
+\]
+
+\subsection*{Markov Inequality}
+
+\[
+P(X > a) \le \frac{E[X]}{a}
+\]
+
+\subsection*{Interpretation}
+
+Example intuition:
+
+If the average is $10$, then only a few values can be very large (like $100$).
+
+Thus very large values must be rare.
+
+\section{Logical Flow of the Lecture}
+
+\begin{itemize}
+\item Introduced tail probabilities
+\item Motivated importance using system examples
+\item Discussed Binomial and Poisson tail examples
+\item Explained why exact computation is difficult
+\item Introduced the idea of tail bounds
+\item Derived Markov's Inequality using the expectation
+\end{itemize}
+
+\end{document}
