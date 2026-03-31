@@ -1,0 +1,260 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture 21}
+\cfoot{\thepage}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing}\\
+    \Large Lecture Scribe Submission
+}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-2cm}
+\begin{center}
+    \begin{tabular}{ll}
+        \textbf{Name:} & Ishika Patel \\[1.5ex]
+        \textbf{Enrollment No:} & AU2440088 \\[1.5ex]
+        \textbf{Group:} & s1\_g1\_fin \\[1.5ex]
+        \textbf{Lecture:} & 21 \\[1.5ex]
+        \textbf{Instructor:} & Dhaval Patel, PhD \\[1.5ex]
+        \textbf{Date:} & March 30, 2026
+    \end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+
+\section*{Lecture 21: Tail Probabilities and Bounds}
+
+\section*{1. Tails}
+
+\textbf{Definition}
+
+The tail of a random variable $X$ is:
+\[
+P(X > x)
+\]
+
+\textbf{Why do we care about tails?}
+
+\begin{itemize}
+\item Jobs delayed more than 24 hours
+\item Packets dropped due to full buffer
+\end{itemize}
+
+\textbf{Key idea}
+
+\begin{itemize}
+\item Mean $\rightarrow$ average behavior (easy)
+\item Tail $\rightarrow$ rare extreme events (hard)
+\end{itemize}
+
+\textbf{Why are tails hard to compute?}
+
+Requires summing many small probabilities
+
+\section*{2. Tails Example 1/2}
+
+\textbf{Question}
+
+Suppose we’re distributing $n$ jobs among $n$ servers at random. What’s the probability that a particular server gets $\geq k$ jobs?
+
+\textbf{Intuition}
+
+\begin{itemize}
+\item Jobs are assigned randomly
+\item Most servers get few jobs
+\item Occasionally, one server gets many jobs
+\item This is a tail event (rare overload)
+\end{itemize}
+
+\textbf{Model}
+
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+\textbf{Probability}
+
+\[
+P(X \geq k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\textbf{Note}
+
+Highlighted server has $\geq k$ jobs
+
+\section*{3. Tails Example 2/2}
+
+\textbf{Question}
+
+Jobs arrive to a datacenter according to a Poisson process with rate $\lambda$ jobs/hour. What’s the probability that $\geq k$ jobs arrive during the first hour?
+
+\textbf{Intuition}
+
+\begin{itemize}
+\item Jobs arrive randomly over time
+\item Most hours have moderate arrivals
+\item Sometimes, we see a burst of arrivals
+\item This is a tail event (sudden spike in load)
+\end{itemize}
+
+\textbf{Model}
+
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+\textbf{Probability}
+
+\[
+P(X \geq k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\textbf{Note}
+
+Many arrivals within one hour ($\geq k$ jobs)
+
+\section*{4. Why Tail Bounds?}
+
+\textbf{Observation}
+
+Exact tail probabilities are often hard to compute
+
+\textbf{Exact computation}
+
+Complicated, long sums
+
+\textbf{Idea: Instead of exact value}
+
+\begin{itemize}
+\item We find an upper bound
+\item Easier to compute
+\item Still gives a guarantee
+\end{itemize}
+
+\textbf{Form}
+
+\begin{itemize}
+\item Exact:
+\[
+P(X \geq k)
+\]
+\item Bound:
+\[
+P(X \geq k) \leq \text{something simple}
+\]
+\end{itemize}
+
+\textbf{Key idea}
+
+Approximate safely instead of computing exactly
+
+\section*{5. Running Example (Key Idea)}
+
+\textbf{Goal}
+
+Develop progressively better (tighter) tail bounds
+
+Test all bounds on the same example
+
+\textbf{Experiment}
+
+Flip a fair coin $n$ times
+
+\textbf{Distribution}
+
+\[
+X = \text{number of heads}
+\]
+\[
+X \sim \text{Binomial}(n, \tfrac{1}{2})
+\]
+
+\textbf{Mean}
+
+\[
+E[X] = \frac{n}{2}
+\]
+
+\textbf{Question}
+
+\[
+P\left(X \geq \frac{3n}{4}\right)
+\]
+
+\textbf{Observation}
+
+Tail region: getting unusually many heads
+
+\section*{6. Markov’s Inequality}
+
+\textbf{Key Idea}
+
+Uses only the mean
+
+Large values $\Rightarrow$ rare
+
+\[
+P(X \geq k) \leq \text{something simple}
+\]
+
+\textbf{Example}
+
+Avg = 10 $\Rightarrow$ few values can be 100+
+
+\textbf{Markov Inequality}
+
+\[
+P(X \geq a) \leq \frac{E[X]}{a}
+\]
+
+\textbf{Proof (Idea)}
+
+\[
+E[X] = \sum_{x=0}^{\infty} x \cdot p_X(x)
+\]
+
+\[
+\geq \sum_{x=a}^{\infty} x \cdot p_X(x)
+\]
+
+\[
+\geq \sum_{x=a}^{\infty} a \cdot p_X(x)
+\]
+
+\[
+= a \cdot P(X \geq a)
+\]
+
+\[
+\Rightarrow P(X \geq a) \leq \frac{E[X]}{a}
+\]
+
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+    \small \textit{End of Lecture 21}
+\end{center}
+
+\end{document}
