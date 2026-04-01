@@ -1,0 +1,39 @@
+Create a high-quality, exam-focused lecture scribe for **CSE 400 (Lecture 21)** using only the provided lecture slides and prescribed textbook sections.
+
+Strict Requirements:
+
+* Use **only the given material**. Do not include any external knowledge, intuition, assumptions, or additional explanations.
+* Include **all definitions and notation exactly as introduced**, preserving symbols, wording, and structure.
+* Clearly state **all assumptions, conditions, constraints, and domains** wherever specified.
+* Include **all theorems, lemmas, propositions, and formal results** completely and exactly as presented.
+* Write **all proofs and derivations step-by-step**, with:
+
+  * No skipped steps
+  * No simplifications or shortcuts
+  * Exact logical flow as in lecture
+* Include **all formulas, identities, and transformations** with correct notation.
+* Include **all algorithms/procedures (if any)** in clear, numbered stepwise form.
+* Include **all worked examples covered in the lecture**, showing:
+
+  * Full setup
+  * Intermediate steps
+  * Final results exactly as shown
+
+Formatting Requirements:
+
+* Use **clear hierarchical headings** (Topic → Subtopic → Result).
+* Use **bullet points** for definitions, assumptions, and properties.
+* Use **numbered steps** for proofs, derivations, and computations.
+* Keep the content **compact, structured, and revision-friendly**.
+* Use **proper mathematical notation throughout**.
+
+Strictly Avoid:
+
+* Intuition, interpretation, or conceptual explanations
+* Alternative methods or shortcuts
+* Additional examples not present in lecture
+* Skipping any steps or compressing derivations
+
+Final Output Goal:
+
+A **fully self-contained, rigorous, and exam-ready scribe** that can be directly used for **full-marks answers and last-minute revision**.
