@@ -1,0 +1,182 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage[a4paper, margin=1in]{geometry}
+
+\title{CSE 400 -- Lecture 21 Scribe}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Topic: Tail Probabilities and Markov’s Inequality}
+
+\section{Tails of a Random Variable}
+
+\subsection{Definition}
+The \textbf{tail} of a random variable is:
+\[
+P(X > x)
+\]
+
+\subsection{Why do we care about tails?}
+\begin{itemize}
+    \item Jobs delayed more than 24 hours
+    \item Packets dropped due to full buffer
+\end{itemize}
+
+\subsection{Key Idea}
+\begin{itemize}
+    \item Mean $\rightarrow$ average behavior (easy)
+    \item Tail $\rightarrow$ rare extreme events (hard)
+\end{itemize}
+
+\subsection{Why are tails hard to compute?}
+\begin{itemize}
+    \item Requires summing many small probabilities
+\end{itemize}
+
+\section{Tail Probability Examples}
+
+\subsection{Example 1: Load Balancing (Balls into Bins)}
+
+\subsubsection{Problem Statement}
+\begin{itemize}
+    \item Suppose distributing $n$ jobs among $n$ servers
+    \item What is the probability that a particular server gets $\geq k$ jobs?
+\end{itemize}
+
+\subsubsection{Model}
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+\subsubsection{Quantity of Interest}
+\[
+P(X \geq k)
+\]
+
+\subsubsection{Interpretation}
+Highlighted server has $\geq k$ jobs.
+
+\subsection{Example 2: Poisson Arrivals}
+
+\subsubsection{Problem Statement}
+\begin{itemize}
+    \item Jobs arrive according to a Poisson process (jobs/hour)
+    \item What is the probability that $\geq k$ jobs arrive in one hour?
+\end{itemize}
+
+\subsubsection{Model}
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+\subsubsection{Quantity of Interest}
+\[
+P(X \geq k)
+\]
+
+\subsubsection{Interpretation}
+Many arrivals within one hour ($\geq k$ jobs).
+
+\section{Exact Tail Computation}
+
+\subsection{Poisson Case}
+\[
+P(X \geq k) = \sum_{i=k}^{\infty} e^{-\lambda} \cdot \frac{\lambda^i}{i!}
+\]
+
+\subsection{Binomial Case}
+\[
+P(X \geq k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1 - p)^{n-i}
+\]
+
+\subsection{Observation}
+\begin{itemize}
+    \item Complicated, long sums
+\end{itemize}
+
+\section{Why Tail Bounds?}
+
+\subsection{Motivation}
+\begin{itemize}
+    \item Exact tail probabilities are often \textbf{hard to compute}
+\end{itemize}
+
+\subsection{Idea}
+\begin{itemize}
+    \item Instead of exact computation:
+    \begin{itemize}
+        \item Find bounds
+        \item Easier to compute
+        \item Still useful
+    \end{itemize}
+\end{itemize}
+
+\section{Running Example (Key Idea)}
+
+\subsection{Setup}
+\[
+X \sim \text{Binomial}(n, 1/2)
+\]
+
+\subsection{Mean}
+\[
+\mu = \frac{n}{2}
+\]
+
+\subsection{Tail Event}
+\[
+P(X \geq 3n/4)
+\]
+
+\subsection{Interpretation}
+\begin{itemize}
+    \item Tail region: getting unusually many heads
+\end{itemize}
+
+\subsection{Goal}
+\begin{itemize}
+    \item Develop progressively better (tighter) tail bounds
+    \item Test all bounds on the same example
+\end{itemize}
+
+\section{Markov’s Inequality}
+
+\subsection{Key Idea}
+\begin{itemize}
+    \item Uses only the mean
+    \item Large values $\Rightarrow$ rare
+\end{itemize}
+
+\subsection{Example}
+\begin{itemize}
+    \item Avg = 10 $\Rightarrow$ few values can be 100+
+\end{itemize}
+
+\subsection{Theorem: Markov’s Inequality}
+\[
+P(X \geq a) \leq \frac{\mathbb{E}[X]}{a}
+\]
+
+\subsection{Conditions}
+\begin{itemize}
+    \item Random variable $X$
+    \item Threshold $a > 0$
+\end{itemize}
+
+\section{Summary of Lecture Flow}
+
+\begin{itemize}
+    \item Defined \textbf{tail probability}
+    \item Motivated importance via real systems
+    \item Showed \textbf{exact computation (Poisson \& Binomial)}
+    \item Highlighted \textbf{computational difficulty}
+    \item Introduced \textbf{tail bounds}
+    \item Applied running example: Binomial$(n, 1/2)$
+    \item Introduced \textbf{Markov’s Inequality} as first bound
+\end{itemize}
+
+\end{document}
