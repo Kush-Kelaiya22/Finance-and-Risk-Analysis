@@ -1,0 +1,354 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm, graphicx, xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+% Theorem Environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
+
+\title{\textbf{CSE400 - Fundamentals of Probability in Computing} \\ \Large Lecture 21 and L22: Inequalities and Tail Bounds}
+\author{Dhaval Patel, PhD \\ \small Associate Professor \\ \small SEAS-Ahmedabad University, Ahmedabad, Gujarat, India}
+\date{March 24 and 26, 2026}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Tail and Motivation of Tail Bounds}
+
+\subsection{Definition of a Tail}
+\begin{definition}
+The tail of a random variable $X$ is defined as the probability that $X$ exceeds a certain value $x$:
+\[ P\{X > x\} \]
+\end{definition}
+
+\begin{figure}[h]
+    \centering
+    %     \textit{[Image Placeholder: A bell-shaped probability density curve. An arrow points from the center towards the right edge, labeled ``CALCULATE TAIL PROBABILITY''. A vertical line marks the value $x$ on the x-axis, and the area under the curve to the right of $x$ is shaded red and labeled ``Tail Area $P(X > x)$''.]}
+    \caption{Probability Density and Tail Area}
+\end{figure}
+
+\subsection{Motivation: Why do we care about tails?}
+Tails represent rare but significant events. We care about them because they often dictate system failures or worst-case scenarios.
+\begin{itemize}
+    \item Jobs delayed more than 24 hours in a scheduling system.
+    \item Packets dropped due to a full buffer in a network.
+\end{itemize}
+
+\textbf{Key Idea:}
+\begin{itemize}
+    \item \textbf{Mean} $\rightarrow$ Average behavior (easy to compute and understand).
+    \item \textbf{Tail} $\rightarrow$ Rare extreme events (hard to calculate).
+\end{itemize}
+
+\textbf{Why are tails hard to compute?}
+They require summing many small probabilities, leading to complicated, long sums that are computationally intensive or analytically intractable.
+
+\subsection{Tails Example 1: Job Distribution}
+\begin{example}
+\textbf{Q:} Suppose you are distributing $n$ jobs among $n$ servers at random. What's the probability that a particular server gets $\ge k$ jobs?
+
+\textbf{Intuition:}
+\begin{itemize}
+    \item Jobs are assigned randomly.
+    \item Most servers get few jobs.
+    \item Occasionally, one server gets many jobs. This is a \textbf{tail event} (rare overload).
+\end{itemize}
+
+\textbf{Exact Computation:}
+Let $X$ be the number of jobs assigned to a specific server. Then $X \sim \text{Binomial}(n, p)$, where $p = \frac{1}{n}$.
+\[ P\{X \ge k\} = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i} \]
+This is a complicated, long sum!
+\end{example}
+
+\begin{figure}[h]
+    \centering
+    %     \textit{[Image Placeholder: Diagram showing jobs (colored circles) being randomly mapped via dashed arrows to bins representing servers $S_1$ to $S_n$. Server $n$ is highlighted in red, showing it has received an unusually high number of jobs ($\ge k$ jobs), illustrating a rare tail event.]}
+    \caption{Random distribution of jobs leading to a tail event.}
+\end{figure}
+
+\subsection{Tails Example 2: Datacenter Arrivals}
+\begin{example}
+\textbf{Q:} Jobs arrive at a datacenter according to a Poisson process with rate $\lambda$ jobs/hour. What is the probability that $\ge k$ jobs arrive during the first hour?
+
+\textbf{Intuition:}
+\begin{itemize}
+    \item Jobs arrive randomly over time.
+    \item Most hours have \textit{moderate} arrivals.
+    \item Sometimes, we see a \textbf{burst of arrivals}. This sudden spike in load is a \textbf{tail event}.
+\end{itemize}
+
+\textbf{Exact Computation:}
+Let $X$ be the number of arrivals in one hour. Then $X \sim \text{Poisson}(\lambda)$.
+\[ P\{X \ge k\} = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!} \]
+Again, this requires computing a difficult infinite series.
+\end{example}
+
+\subsection{The Solution: Bounding Instead of Exact Computation}
+Exact tail probabilities are hard to compute. \\
+\textbf{Idea:} Instead of finding the exact value $P(X \ge k) = ?$, we find an \textbf{upper bound}.
+\begin{itemize}
+    \item It is easier to compute.
+    \item It still gives a reliable \textbf{guarantee} for system performance.
+\end{itemize}
+
+\textbf{Key Idea:} Approximate safely instead of computing exactly:
+\[ P(X \ge k) \le \text{something simple} \]
+
+\subsubsection{Running Example for Bounds}
+We will develop progressively better (tighter) tail bounds and test them on the same example:
+\begin{itemize}
+    \item \textbf{Experiment:} Flip a fair coin $n$ times.
+    \item \textbf{Distribution:} $X = \text{number of heads}$. $X \sim \text{Binomial}(n, \frac{1}{2})$.
+    \item \textbf{Mean:} $E[X] = \frac{n}{2}$.
+    \item \textbf{Question:} What is $P(X \ge \frac{3}{4}n)$?
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \textit{[Image Placeholder: Bar chart of a Binomial(n, 1/2) distribution. The mean is marked at $n/2$. A threshold is marked at $3n/4$, and the bars to the right of this threshold are highlighted in red, indicating the tail region: "getting unusually many heads".]}
+    \caption{Binomial distribution tail region.}
+\end{figure}
+
+\section{Markov's Inequality}
+
+\subsection{Definition and Formal Statement}
+Markov's inequality provides a basic upper bound for the tail probability of a non-negative random variable, using only its expected value.
+
+\begin{theorem}[Markov's Inequality]
+If $X$ is any non-negative random variable ($X \ge 0$) and $a > 0$, then:
+\[ P(X \ge a) \le \frac{E[X]}{a} \]
+\end{theorem}
+
+\subsection{Proof of Markov's Inequality}
+\begin{proof}
+Let $X$ be a continuous non-negative random variable with probability density function $f(x)$. The expected value is:
+\begin{align*}
+E[X] &= \int_{0}^{\infty} x f(x) dx \\
+&= \int_{0}^{a} x f(x) dx + \int_{a}^{\infty} x f(x) dx
+\end{align*}
+Since $X$ is non-negative, $x f(x) \ge 0$ for all $x$, so the first integral is non-negative:
+\begin{align*}
+E[X] &\ge \int_{a}^{\infty} x f(x) dx
+\end{align*}
+In the domain of the integral, $x \ge a$, which implies:
+\begin{align*}
+E[X] &\ge \int_{a}^{\infty} a f(x) dx \\
+E[X] &\ge a \int_{a}^{\infty} f(x) dx \\
+E[X] &\ge a P(X \ge a)
+\end{align*}
+Dividing both sides by $a$ yields:
+\[ P(X \ge a) \le \frac{E[X]}{a} \]
+\end{proof}
+
+\subsection{Example}
+Let's apply Markov's inequality to our running Binomial example.
+\begin{itemize}
+    \item $X \sim \text{Binomial}(n, \frac{1}{2})$
+    \item $E[X] = \frac{n}{2}$
+    \item We want to bound $P(X \ge \frac{3}{4}n)$.
+\end{itemize}
+Using Markov's Inequality ($a = \frac{3}{4}n$):
+\[ P\left(X \ge \frac{3}{4}n\right) \le \frac{E[X]}{\frac{3}{4}n} = \frac{n/2}{3n/4} = \frac{2}{3} \]
+\textbf{Conclusion:} Markov's inequality tells us the probability is at most $2/3$. This is a valid, but very loose (weak) bound.
+
+\section{Chebyshev's Inequality}
+
+\subsection{Definition and Formal Statement}
+Chebyshev's inequality improves upon Markov's bound by utilizing both the mean \textit{and} the variance of the random variable, measuring how much the variable deviates from its mean.
+
+\begin{theorem}[Chebyshev's Inequality]
+For any random variable $X$ with expected value $\mu = E[X]$ and variance $\sigma^2 = \text{Var}(X)$, and for any real number $a > 0$:
+\[ P(|X - \mu| \ge a) \le \frac{\sigma^2}{a^2} \]
+\end{theorem}
+
+\subsection{Proof of Chebyshev's Inequality}
+\begin{proof}
+We use Markov's Inequality. Define a new random variable $Y = (X - \mu)^2$.
+Notice that $Y$ is strictly non-negative ($Y \ge 0$).
+We apply Markov's inequality to $Y$ with the threshold $a^2$:
+\[ P(Y \ge a^2) \le \frac{E[Y]}{a^2} \]
+Substitute $Y = (X - \mu)^2$ back into the inequality:
+\[ P((X - \mu)^2 \ge a^2) \le \frac{E[(X - \mu)^2]}{a^2} \]
+Observe two facts:
+1. The event $(X - \mu)^2 \ge a^2$ is exactly equivalent to the event $|X - \mu| \ge a$.
+2. By definition, $E[(X - \mu)^2] = \text{Var}(X) = \sigma^2$.
+
+Substituting these yields:
+\[ P(|X - \mu| \ge a) \le \frac{\sigma^2}{a^2} \]
+\end{proof}
+
+\subsection{Example}
+Applying Chebyshev to our running Binomial example:
+\begin{itemize}
+    \item $X \sim \text{Binomial}(n, \frac{1}{2})$
+    \item $\mu = E[X] = \frac{n}{2}$
+    \item $\sigma^2 = \text{Var}(X) = n p (1-p) = n(\frac{1}{2})(\frac{1}{2}) = \frac{n}{4}$
+    \item We want to bound $P(X \ge \frac{3}{4}n)$.
+\end{itemize}
+Notice that if $X \ge \frac{3}{4}n$, then $X - \frac{n}{2} \ge \frac{1}{4}n$.
+Thus, $P(X \ge \frac{3}{4}n) \le P(|X - \frac{n}{2}| \ge \frac{n}{4})$.
+Using Chebyshev's Inequality with $a = \frac{n}{4}$:
+\[ P\left(\left|X - \frac{n}{2}\right| \ge \frac{n}{4}\right) \le \frac{\sigma^2}{a^2} = \frac{n/4}{(n/4)^2} = \frac{n/4}{n^2/16} = \frac{4}{n} \]
+\textbf{Conclusion:} Chebyshev gives us a bound of $4/n$. If $n=100$, the bound is $0.04$. This is \textit{much} tighter than Markov's $2/3$, because it decays as $n$ grows!
+
+\section{Chernoff Bounds and Poisson Tail}
+
+\subsection{Definition and MGF Derivation}
+Chernoff bounds provide an exponentially tight bound on tail distributions by using the entire Moment Generating Function (MGF) instead of just the mean or variance.
+
+\begin{definition}[Moment Generating Function]
+The Moment Generating Function (MGF) of a random variable $X$ is defined as:
+\[ M_X(t) = E[e^{tX}] \]
+for any real number $t$.
+\end{definition}
+
+\begin{theorem}[Chernoff Bound]
+For any random variable $X$ and any $t > 0$:
+\[ P(X \ge a) \le e^{-ta} M_X(t) = \frac{E[e^{tX}]}{e^{ta}} \]
+\end{theorem}
+
+\subsection{Proof of Chernoff Bounds}
+\begin{proof}
+For any $t > 0$, the function $f(x) = e^{tx}$ is strictly increasing and strictly positive.
+Therefore, the event $X \ge a$ is mathematically equivalent to the event $e^{tX} \ge e^{ta}$.
+\[ P(X \ge a) = P(e^{tX} \ge e^{ta}) \]
+Let $Y = e^{tX}$. Since $Y$ is a non-negative random variable, we can apply Markov's Inequality:
+\[ P(Y \ge e^{ta}) \le \frac{E[Y]}{e^{ta}} \]
+Substitute back $Y = e^{tX}$:
+\[ P(X \ge a) \le \frac{E[e^{tX}]}{e^{ta}} = e^{-ta} M_X(t) \]
+Because this holds for \textit{any} $t > 0$, the tightest bound is found by minimizing over all $t > 0$:
+\[ P(X \ge a) \le \min_{t > 0} e^{-ta} M_X(t) \]
+\end{proof}
+
+\subsection{Upper and Lower Tail Bounds}
+By analogous logic, for the lower tail (where $t > 0$):
+\[ P(X \le a) = P(-X \ge -a) = P(e^{-tX} \ge e^{-ta}) \le \frac{E[e^{-tX}]}{e^{-ta}} \]
+This allows symmetric analysis of both distribution tails.
+
+\subsection{Application to Binomial}
+Applying Chernoff to the sum of independent indicator variables (like our running Binomial example).
+Let $X = \sum_{i=1}^n X_i$, where $X_i \sim \text{Bernoulli}(p)$. Let $\mu = E[X] = np$.
+The standard multiplicative Chernoff bounds state:
+\begin{itemize}
+    \item \textbf{Upper Tail:} For any $\delta > 0$, $P(X \ge (1+\delta)\mu) \le \left( \frac{e^\delta}{(1+\delta)^{(1+\delta)}} \right)^\mu \le e^{-\frac{\delta^2 \mu}{2+\delta}}$
+    \item \textbf{Lower Tail:} For any $0 < \delta < 1$, $P(X \le (1-\delta)\mu) \le \left( \frac{e^{-\delta}}{(1-\delta)^{(1-\delta)}} \right)^\mu \le e^{-\frac{\delta^2 \mu}{2}}$
+\end{itemize}
+
+Returning to our running example $P(X \ge \frac{3}{4}n)$, where $\mu = \frac{n}{2}$. We set $(1+\delta)\frac{n}{2} = \frac{3}{4}n \implies \delta = \frac{1}{2}$.
+\[ P\left(X \ge \frac{3}{4}n\right) \le e^{-\frac{(1/2)^2 (n/2)}{2 + 1/2}} = e^{-\frac{n/8}{2.5}} = e^{-\frac{n}{20}} \]
+\textbf{Conclusion:} Chernoff bounds show the probability decays \textit{exponentially} with $n$. This is profoundly tighter than both Markov (constant) and Chebyshev (polynomial $1/n$).
+
+\subsection{Poisson Tail Bounds}
+For a Poisson random variable $X \sim \text{Poisson}(\lambda)$, the MGF is:
+\[ M_X(t) = E[e^{tX}] = \sum_{k=0}^{\infty} e^{tk} e^{-\lambda} \frac{\lambda^k}{k!} = e^{-\lambda} \sum_{k=0}^{\infty} \frac{(\lambda e^t)^k}{k!} = e^{-\lambda} e^{\lambda e^t} = e^{\lambda(e^t - 1)} \]
+Applying the Chernoff Bound framework to $X$:
+\[ P(X \ge x) \le \min_{t > 0} \frac{e^{\lambda(e^t - 1)}}{e^{tx}} \]
+Taking the derivative with respect to $t$ and setting it to zero yields the optimal $t = \ln(x/\lambda)$. Plugging this back in provides the tightest exponential tail bound for Poisson processes (vital for analyzing traffic spikes in the datacenter example).
+
+\section{Jensen's Inequality}
+
+\subsection{Convex Functions: Definition and Properties}
+\begin{definition}[Convex Function]
+A real-valued function $f$ is convex on an interval if, for any two points $x_1, x_2$ in the interval and any $t \in [0,1]$:
+\[ f(tx_1 + (1-t)x_2) \le t f(x_1) + (1-t) f(x_2) \]
+Geometrically, the line segment between any two points on the graph of the function lies strictly above the graph.
+Alternatively, if $f$ is twice differentiable, it is convex if $f''(x) \ge 0$ for all $x$.
+\end{definition}
+
+\begin{figure}[h]
+    \centering
+    \textit{[Image Placeholder: A convex upward-opening curve. A secant line connects two points $(x_1, f(x_1))$ and $(x_2, f(x_2))$. The curve dips strictly below the secant line, illustrating the definition of convexity.]}
+    \caption{Visual representation of a convex function.}
+\end{figure}
+
+\subsection{Formal Statement}
+\begin{theorem}[Jensen's Inequality]
+If $X$ is a random variable and $f$ is a convex function, then:
+\[ f(E[X]) \le E[f(X)] \]
+If $f$ is strictly convex, equality holds if and only if $X$ is a constant (i.e., $X = E[X]$ with probability 1).
+\end{theorem}
+
+\subsection{Proof}
+\begin{proof}
+Let $\mu = E[X]$. Since $f$ is convex, there exists a tangent line at $x = \mu$ that sits completely below the function. Let the equation of this line be $L(x) = a(x - \mu) + f(\mu)$, where $a$ is the slope of the tangent.
+By the property of convexity, for all $x$:
+\[ f(x) \ge L(x) = a(x - \mu) + f(\mu) \]
+Since this holds for all $x$, it holds for the random variable $X$:
+\[ f(X) \ge a(X - \mu) + f(\mu) \]
+Take the expected value of both sides:
+\begin{align*}
+E[f(X)] &\ge E[a(X - \mu) + f(\mu)] \\
+E[f(X)] &\ge a E[X - \mu] + f(\mu)
+\end{align*}
+By linearity of expectation, $E[X - \mu] = E[X] - \mu = \mu - \mu = 0$.
+Thus:
+\[ E[f(X)] \ge a(0) + f(\mu) = f(E[X]) \]
+\end{proof}
+
+\subsection{Examples}
+\begin{example}
+Let $f(x) = x^2$. Since $f''(x) = 2 \ge 0$, $f$ is a convex function.
+Applying Jensen's Inequality:
+\[ (E[X])^2 \le E[X^2] \]
+This inherently proves that Variance is non-negative: $\text{Var}(X) = E[X^2] - (E[X])^2 \ge 0$.
+\end{example}
+
+\begin{example}
+Let $f(x) = e^x$. The exponential function is strictly convex ($f''(x) = e^x > 0$).
+By Jensen's Inequality:
+\[ e^{E[X]} \le E[e^X] \]
+This relation often serves as a foundational step when establishing moment generating functions for bounding behavior.
+\end{example}
+
+\section{Case Study and System-Level Understanding}
+
+\subsection{Interpretation of Bounds in Practice}
+When building actual computing systems (e.g., allocating server space for datacenters, or buffer sizes in network routers), exact probabilities are secondary to \textbf{guaranteed bounds}. Engineers ask: "How many servers do I need so that the probability of overloading is less than $10^{-6}$?"
+
+By using tail bounds:
+\begin{itemize}
+    \item We dimension systems based on worst-case bounds.
+    \item We prevent cascading failures caused by rare, extreme tail events.
+\end{itemize}
+
+\subsection{Comparison of Bounds: Tightness vs. Information Needed}
+We analyzed three major bounds on the running Binomial example:
+
+1. \textbf{Markov's Inequality:}
+   \begin{itemize}
+       \item \textbf{Bound:} $\approx 2/3$ (Constant)
+       \item \textbf{Tightness:} Very loose (weak).
+       \item \textbf{Requirement:} Needs \textbf{only} the Mean ($E[X]$) and non-negativity.
+   \end{itemize}
+
+2. \textbf{Chebyshev's Inequality:}
+   \begin{itemize}
+       \item \textbf{Bound:} $4/n$ (Polynomial decay)
+       \item \textbf{Tightness:} Moderate. Shrinks to 0 as $n \to \infty$.
+       \item \textbf{Requirement:} Needs the Mean ($E[X]$) and the Variance ($\text{Var}(X)$).
+   \end{itemize}
+
+3. \textbf{Chernoff Bounds:}
+   \begin{itemize}
+       \item \textbf{Bound:} $\approx e^{-n/20}$ (Exponential decay)
+       \item \textbf{Tightness:} Extremely tight. Shrinks incredibly fast.
+       \item \textbf{Requirement:} Needs the full Moment Generating Function ($E[e^{tX}]$) and assumption of independent trials.
+   \end{itemize}
+
+\subsection{Real-World Meaning}
+\textbf{The Trade-off:} The more information you know about the distribution (Mean $\rightarrow$ Variance $\rightarrow$ MGF), the tighter the bound you can construct. 
+In datacenter provisioning:
+\begin{itemize}
+    \item If you only know average arrival rates, you must heavily over-provision (Markov).
+    \item If you know the variance of the traffic, you can save money by provisioning less (Chebyshev).
+    \item If you can model traffic perfectly as sum of independent variables, you can dimension the exact optimal buffer size, achieving high reliability at minimal cost (Chernoff).
+\end{itemize}
+
+\end{document}
