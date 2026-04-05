@@ -1,0 +1,108 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, geometry, booktabs}
+\geometry{a4paper, margin=0.5in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\begin{document}
+
+\begin{center}
+\textbf{\Large CSE400: Joint Random Variables \& Distributions}
+\end{center}
+
+\section*{1. Motivation \& Setup}
+We often evaluate multiple random variables simultaneously to understand their relationships, dependencies, and joint probabilities.
+\textbf{Examples:} Height/weight of giraffes, IQ/birthweight, Air pollution/respiratory illness.
+\textbf{Example (Smart Transportation):} $X = \text{Vehicle Speed}$, $Y = \text{Traffic Density}$. $X$ and $Y$ are correlated due to network congestion constraints. 
+\textbf{Example (Wireless Networks):} $X = \text{SNR}$, $Y = \text{Data Throughput}$. Throughput depends heavily on SNR, meaning $X$ and $Y$ jointly vary due to fading and interference.
+
+\section*{2. Discrete Case: Joint PMF}
+Let $X \in \{x_1, x_2, \dots, x_n\}$ and $Y \in \{y_1, y_2, \dots, y_m\}$ be discrete RVs. The ordered pair $(X, Y)$ takes values in the product set $\{(x_1, y_1), \dots, (x_n, y_m)\}$.
+
+\textbf{Definition (Joint PMF):} $p(x_i, y_j) = P(X = x_i, Y = y_j)$. This provides the probability of the joint outcome occurring simultaneously.
+
+\textbf{Key Properties:}
+\quad (1) $0 \le p(x_i, y_j) \le 1$ \qquad (2) $\sum_{i=1}^{n}\sum_{j=1}^{m} p(x_i, y_j) = 1$
+
+\textbf{Example: Rolling Two Fair Dice}
+Experiment: Roll two fair dice. Let $X = \text{value on the first die}$, $T = \text{total (sum) of both dice}$.
+Since each outcome $(i, j)$ has probability $\frac{1}{36}$, the joint PMF table of $(X, T)$ is:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|ccccccccccc|}
+\hline
+$X \backslash T$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+\hline
+1 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 0 & 0 & 0 & 0 & 0 \\
+2 & 0 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 0 & 0 & 0 & 0 \\
+3 & 0 & 0 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 0 & 0 & 0 \\
+4 & 0 & 0 & 0 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 0 & 0 \\
+5 & 0 & 0 & 0 & 0 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 0 \\
+6 & 0 & 0 & 0 & 0 & 0 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 & 1/36 \\
+\hline
+\end{tabular}
+\end{center}
+\textbf{Observations:} All entries are either $0$ or $\frac{1}{36}$. Since probabilities depend on specific pairings, $X$ and $T$ are \textbf{not independent}.
+
+\section*{3. Continuous Case: Joint PDF}
+The continuous case is directly analogous to the discrete case: 
+Discrete values $\longrightarrow$ Continuous intervals \quad $|\quad$ Joint PMF $\longrightarrow$ Joint PDF \quad $|\quad$ Sums $\longrightarrow$ Double integrals.
+If $X \in [a, b]$ and $Y \in [c, d]$, the pair $(X, Y)$ takes values in the product region $[a, b] \times [c, d]$.
+
+\textbf{Definition (Joint PDF):} A function $f(x,y)$ is the joint probability density function of $X$ and $Y$ if:
+\begin{equation*}
+P((X, Y) \text{ lies in a small rectangle of area } dx\,dy) \approx f(x, y) \,dx\,dy
+\end{equation*}
+
+\textbf{Key Properties:}
+\quad (1) $f(x, y) \ge 0$ \qquad (2) $\int_{c}^{d} \int_{a}^{b} f(x, y) \,dx\,dy = 1$ \\
+\textit{Note:} The joint PDF $f(x,y)$ may take values $> 1$. It is a probability density, not a probability.
+
+\textbf{Worked Example:}
+Given $f(x, y) = 4xy$ for $0 \le x \le 1, \; 0 \le y \le 1$. Jointly, $(X, Y)$ takes values in the unit square $[0, 1]^2$.
+
+\textit{Task 1: Show that $f(x, y)$ is a valid joint PDF.}
+\begin{align*}
+\int_{0}^{1} \int_{0}^{1} 4xy \,dx\,dy &= \int_{0}^{1} \left[ 2x^2 y \right]_{x=0}^{x=1} dy = \int_{0}^{1} 2y \,dy = \left[ y^2 \right]_{0}^{1} = 1
+\end{align*}
+Since $f(x,y) \ge 0$ on the unit square and integrates to 1, it is a valid joint PDF.
+
+\textit{Task 2 \& 3: Visualize and compute $P(A)$ for the event $A = \{X < 0.5, Y > 0.5\}$.}
+\begin{align*}
+P(A) &= \int_{0.5}^{1} \int_{0}^{0.5} 4xy \,dx\,dy = \int_{0.5}^{1} \left[ 2x^2 y \right]_{x=0}^{x=0.5} dy \\
+&= \int_{0.5}^{1} 2(0.25)y \,dy = \int_{0.5}^{1} 0.5y \,dy = \left[ 0.25y^2 \right]_{y=0.5}^{y=1} = 0.25(1 - 0.25) = \frac{3}{16}
+\end{align*}
+
+\section*{4. Joint Cumulative Distribution Function (CDF)}
+\textbf{Definition of Joint CDF:} For any random variables $X$ and $Y$, the joint CDF is defined as:
+\begin{equation*}
+F_{X,Y}(x,y) = P(X \le x, Y \le y)
+\end{equation*}
+
+\textbf{Discrete Case:}
+\begin{equation*}
+F_{X,Y}(x,y) = \sum_{x_i \le x} \sum_{y_j \le y} p(x_i, y_j)
+\end{equation*}
+
+\textbf{Continuous Case:}
+\begin{equation*}
+F_{X,Y}(x,y) = \int_{-\infty}^{y} \int_{-\infty}^{x} f(u, v) \,du\,dv \quad \implies \quad f(x,y) = \frac{\partial^2}{\partial x \partial y} F_{X,Y}(x,y)
+\end{equation*}
+
+\textbf{Properties of the Joint CDF:}
+\begin{itemize}
+    \item \textbf{Bounds:} $0 \le F_{X,Y}(x,y) \le 1$
+    \item \textbf{Monotonicity:} Non-decreasing in both $x$ and $y$. If $x_1 \le x_2$ and $y_1 \le y_2$, then $F_{X,Y}(x_1, y_1) \le F_{X,Y}(x_2, y_2)$.
+    \item \textbf{Limits:} 
+    \begin{align*}
+    \lim_{x \to \infty, y \to \infty} F_{X,Y}(x,y) &= 1 \\
+    \lim_{x \to -\infty} F_{X,Y}(x,y) &= 0, \quad \lim_{y \to -\infty} F_{X,Y}(x,y) = 0
+    \end{align*}
+    \item \textbf{Rectangle Probability:} The probability of $(X,Y)$ falling in the region $x_1 < X \le x_2$ and $y_1 < Y \le y_2$ is:
+    \begin{equation*}
+    P(x_1 < X \le x_2, y_1 < Y \le y_2) = F_{X,Y}(x_2, y_2) - F_{X,Y}(x_1, y_2) - F_{X,Y}(x_2, y_1) + F_{X,Y}(x_1, y_1) \ge 0
+    \end{equation*}
+\end{itemize}
+
+\end{document}
